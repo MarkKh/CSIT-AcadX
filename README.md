@@ -2,7 +2,7 @@
 
 CSIT AcadX is an academic web application developed by students for an undergraduate thesis in the Department of Computer Science and Information Technology.
 
-This web app is developed with ReactJS, NodeJS, and MySQL.
+"CSIT" represents the academic field, while "AcadX" combines the concept of an academy with a modern and concise twist. The "X" adds a contemporary touch to the name, making it catchy and memorable.
 
 ## Technologies Used
 - ⚛️ ReactJS: A powerful JavaScript library for building user interfaces.
