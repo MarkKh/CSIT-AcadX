@@ -1,13 +1,15 @@
-🌟 CSIT AcadX Coming Soon! 🌟
+# CSIT AcadX Coming Soon 🚀
 
-CSIT AcadX is an innovative academic web application developed by students for an undergraduate thesis. It is designed exclusively for the Department of Computer Science and Information Technology.
+CSIT AcadX is an academic web application developed by students for an undergraduate thesis in the Department of Computer Science and Information Technology.
 
-🔧 Built with the latest technologies:
-- Powered by ReactJS for a dynamic and interactive user interface.
-- Backed by NodeJS and MySQL for efficient data management and seamless performance.
+This web app is developed with ReactJS, NodeJS, and MySQL.
 
-🎯 Our Mission:
-To revolutionize the academic experience by providing a cutting-edge platform that empowers students and researchers in the field of computer science and information technology.
+## Technologies Used
+- ⚛️ ReactJS: A powerful JavaScript library for building user interfaces.
+- 🖥️ NodeJS: A runtime environment for executing server-side JavaScript code.
+- 🗄️ MySQL: A popular relational database management system.
 
-Stay tuned for the launch of CSIT AcadX! Discover a whole new dimension of academic excellence.
+## Mission
+Our mission is to revolutionize the academic experience by providing a cutting-edge platform that empowers students and researchers in the field of computer science and information technology.
 
+Stay tuned for the launch of CSIT AcadX! Discover a whole new dimension of academic excellence. ✨
