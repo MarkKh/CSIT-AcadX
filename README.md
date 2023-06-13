@@ -5,7 +5,7 @@ CSIT AcadX is an academic web application developed by students for an undergrad
 "CSIT" represents the academic field, while "AcadX" combines the concept of an academy with a modern and concise twist. The "X" adds a contemporary touch to the name, making it catchy and memorable.
 
 ## Technologies Used
-(https://skillicons.dev/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)
+[(https://skillicons.dev/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)]
 - ⚛️ ReactJS: A powerful JavaScript library for building user interfaces.
 - 🖥️ NodeJS: A runtime environment for executing server-side JavaScript code.
 - 🗄️ MySQL: A popular relational database management system.
