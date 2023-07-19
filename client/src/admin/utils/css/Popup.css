@@ -1,0 +1,19 @@
+.popup {
+    animation-name: slideDown;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+    width: 80%; /* Adjust the width as needed */
+    max-height: 80vh; /* Limit the maximum height of the popup */
+    margin-top: 9%; /* Adjust the top margin as needed */
+    margin-bottom: 5%; /* Adjust the bottom margin as needed */
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
