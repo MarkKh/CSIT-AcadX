@@ -17,7 +17,7 @@ const routes = [
     name: "Charts",
   },
   {
-    path: "/admin/tables",
+    path: "/admin/Reports",
     icon: "TablesIcon",
     name: "Report",
   },

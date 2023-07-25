@@ -5,6 +5,7 @@ import PageTitle from '../components/Typography/PageTitle';
 import SectionTitle from '../components/Typography/SectionTitle';
 import { Input, Label, Select, Textarea, Button } from '@windmill/react-ui';
 import provinceData from '../components/utils/province.json'
+import Swal from 'sweetalert2'
 
 function Forms() {
     const [advisors, setAdvisors] = useState([]);
@@ -40,9 +41,13 @@ function Forms() {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Coop saved successfully:", data);
-                alert("Insert Successfully");
+                Swal.fire(
+                    'Insert Successfully',
+                    'Good job bro!',
+                    'success'
+                )
                 // Redirect to "/app/tables"
-                window.location.href = "/app/coop";
+                window.location.href = "/admin/coop";
             })
             .catch((error) => {
                 console.error("Error saving report:", error);

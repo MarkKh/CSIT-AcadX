@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@windmill/react-ui";
 import "../utils/Popup.css";
+import Swal from 'sweetalert2'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
@@ -43,7 +44,11 @@ function Popup({ data, onClose }) {
         try {
             await axios.put(`http://localhost:3000/cooperative/${data.coop_id}`, formData);
             onClose();
-            alert("Update successful");
+            Swal.fire(
+                'Update successfully',
+                'Good job bro!',
+                'success'
+              )
         } catch (error) {
             console.error("Error updating report:", error);
         }

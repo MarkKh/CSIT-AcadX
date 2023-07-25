@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@windmill/react-ui";
 import "../utils/Popup.css";
+import Swal from 'sweetalert2'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
-   
+
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -19,7 +20,11 @@ function Popup({ data, onClose }) {
         try {
             await axios.put(`http://localhost:3000/advisor/${data.advisor_id}`, formData);
             onClose();
-            alert("Update successful");
+            Swal.fire(
+                'Update successfully',
+                'Good job bro!',
+                'success'
+            )
         } catch (error) {
             console.error("Error updating report:", error);
         }
@@ -65,7 +70,7 @@ function Popup({ data, onClose }) {
                         <tbody>
                             {Object.entries(formData).map(([field, value]) => {
 
-                                
+
                                 return (
                                     <tr key={field}>
                                         <td className="pr-4 font-semibold">{field}</td>

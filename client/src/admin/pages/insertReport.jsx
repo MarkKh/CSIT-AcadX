@@ -4,6 +4,7 @@ import CTA from '../components/CTA';
 import PageTitle from '../components/Typography/PageTitle';
 import SectionTitle from '../components/Typography/SectionTitle';
 import { Input, Label, Select, Textarea, Button } from '@windmill/react-ui';
+import Swal from 'sweetalert2'
 
 function Forms() {
 
@@ -46,9 +47,13 @@ function Forms() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Report saved successfully:", data);
-        alert("Insert Successfully");
+        Swal.fire(
+          'Insert Successfully',
+          'Good job bro!',
+          'success'
+        )
         // Redirect to "/app/tables"
-        window.location.href = "/app/tables";
+        window.location.href = "/admin/tables";
       })
       .catch((error) => {
         console.error("Error saving report:", error);
@@ -268,7 +273,7 @@ function Forms() {
 
           <br></br>
           <div class="flex justify-end space-x-2">
-            <Button type="button"><Link to="/app/tables">
+            <Button type="button"><Link to="/admin/reports">
               Cancel
             </Link></Button>
             <Button type="submit">Save</Button>

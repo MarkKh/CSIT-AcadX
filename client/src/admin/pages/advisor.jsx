@@ -19,7 +19,7 @@ import {
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Advisor/Popup";
-
+import Swal from 'sweetalert2'
 
 function Advisor() {
     const [advisors, setAdvisors] = useState([]);
@@ -49,15 +49,32 @@ function Advisor() {
     };
 
     const handleDelete = async (advisor_id) => {
-        const confirmDelete = window.confirm("Do you want to delete this coop?");
-        if (confirmDelete) {
+        const shouldDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        });
+
+        if (shouldDelete.isConfirmed) {
             try {
                 await axios.delete(`http://localhost:3000/advisor/${advisor_id}`);
                 fetchAdvisors();
-                alert("Delete successful");
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                );
             } catch (error) {
-                alert(error);
-                console.error("Error: ", error);
+                Swal.fire(
+                    'Error!',
+                    'An error occurred while deleting the report.',
+                    'error'
+                );
+                console.error("Error:", error);
             }
         }
     };
@@ -105,16 +122,25 @@ function Advisor() {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Coop saved successfully:", data);
-                alert("Insert Successfully");
-                // Redirect to "/app/tables"
-                window.location.href = "/app/advisor";
+                console.log("Advisor saved successfully:", data);
+                return Swal.fire(
+                    'Insert Successfully',
+                    'Good job bro!',
+                    'success'
+                );
+            })
+            .then((result) => {
+                // Only redirect if the SweetAlert is closed (by pressing "OK")
+                if (result.isConfirmed) {
+                    window.location.href = "/admin/advisor";
+                }
             })
             .catch((error) => {
                 console.error("Error saving report:", error);
                 alert("Error: " + error.message);
             });
     };
+
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -130,12 +156,12 @@ function Advisor() {
             <SectionTitle>Table with actions</SectionTitle>
 
             <div className="flex justify-between mb-4">
-                    <Input
-                        type="text"
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search..."
-                        className="border border-gray-300 p-2 rounded-md focus:outline-none w-full"
-                    />
+                <Input
+                    type="text"
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search..."
+                    className="border border-gray-300 p-2 rounded-md focus:outline-none w-full"
+                />
             </div>
 
             <TableContainer className="mb-8">

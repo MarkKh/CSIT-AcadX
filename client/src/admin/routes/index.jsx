@@ -7,7 +7,7 @@ const Cards = lazy(() => import("../pages/Cards"));
 const Charts = lazy(() => import("../pages/Charts"));
 const Buttons = lazy(() => import("../pages/Buttons"));
 const Modals = lazy(() => import("../pages/Modals"));
-const Tables = lazy(() => import("../pages/Tables"));
+const Reports = lazy(() => import("../pages/Report"));
 const Page404 = lazy(() => import("../pages/404"));
 const Blank = lazy(() => import("../pages/Blank"));
 const insertReport = lazy(() => import("../pages/insertReport"));
@@ -41,8 +41,8 @@ const routes = [
     component: Modals,
   },
   {
-    path: "/tables",
-    component: Tables,
+    path: "/Reports",
+    component: Reports,
   },
   {
     path: "/404",

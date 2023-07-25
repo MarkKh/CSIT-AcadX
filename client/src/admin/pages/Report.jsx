@@ -18,6 +18,7 @@ import {
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
+import Swal from 'sweetalert2'
 
 function Tables() {
   const [report, setReport] = useState(1);
@@ -85,18 +86,36 @@ function Tables() {
   };
 
   const handleDelete = async (repCode) => {
-    const shouldDelete = window.confirm("Do you want to delete this report?");
-    if (shouldDelete) {
+    const shouldDelete = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (shouldDelete.isConfirmed) {
       try {
         await axios.delete(`http://localhost:3000/report/${repCode}`);
         fetchData();
-        alert("Delete successful");
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
       } catch (error) {
-        alert(error);
+        Swal.fire(
+          'Error!',
+          'An error occurred while deleting the report.',
+          'error'
+        );
         console.error("Error:", error);
       }
     }
   };
+
 
   const onPageChangeReport = (p) => {
     setReport(p);

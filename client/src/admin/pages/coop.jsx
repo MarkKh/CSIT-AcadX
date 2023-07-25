@@ -18,6 +18,7 @@ import {
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Coop/Popup";
+import Swal from 'sweetalert2'
 
 
 function Tables() {
@@ -56,15 +57,32 @@ function Tables() {
 
 
   const handleDelete = async (coopId) => {
-    const confirmDelete = window.confirm("Do you want to delete this coop?");
-    if (confirmDelete) {
+    const shouldDelete = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (shouldDelete.isConfirmed) {
       try {
         await axios.delete(`http://localhost:3000/cooperative/${coopId}`);
         fetchData();
-        alert("Delete successful");
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
       } catch (error) {
-        alert(error);
-        console.error("Error: ", error);
+        Swal.fire(
+          'Error!',
+          'An error occurred while deleting the report.',
+          'error'
+        );
+        console.error("Error:", error);
       }
     }
   };
