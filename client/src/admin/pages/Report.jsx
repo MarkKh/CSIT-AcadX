@@ -192,7 +192,7 @@ function Tables() {
       <SectionTitle className="mr-2">Filter By</SectionTitle>
 
       <div className="flex justify-between mb-5">
-        <div className="flex flex-wrap space-x-3 items-center">
+        <div className="flex flex-wrap space-x-1 items-center">
           <div className="relative flex-1">
             <Select
               value={selectedFilters.advisor}
@@ -264,7 +264,7 @@ function Tables() {
           </div>
 
         </div>
-        <Button layout="outline" onClick={clearFilters} className="flex items-center">
+        <Button layout="link" onClick={clearFilters} className="flex items-center">
           <span>Clear Filter</span>
         </Button>
 
