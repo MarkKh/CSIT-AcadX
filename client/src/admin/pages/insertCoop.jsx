@@ -201,7 +201,7 @@ function Forms() {
 
                     <br></br>
                     <div class="flex justify-end space-x-2">
-                        <Button type="button"><Link to="/app/coop">
+                        <Button type="button"><Link to="/admin/coop">
                             Cancel
                         </Link></Button>
                         <Button type="submit">Save</Button>

@@ -15,6 +15,7 @@ import {
   Button,
   Pagination,
   Input,
+  Select
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
@@ -61,7 +62,19 @@ function Tables() {
     year: "",
     rep_type: "",
     status: "",
+    prominence: ""
   });
+
+  const clearFilters = () => {
+    setSelectedFilters({
+      advisor: "",
+      year: "",
+      rep_type: "",
+      status: "",
+      prominence: ""
+    });
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -73,7 +86,7 @@ function Tables() {
         .filter(filterReports)
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
-  }, [report, response, search, selectedFilters]); 
+  }, [report, response, search, selectedFilters]);
 
   const totalResults = response.length;
 
@@ -84,16 +97,9 @@ function Tables() {
     }));
   };
 
-  const YEAR_LIST = [2558 ,2561,2021, 2022, 2023, 2024]; // สามารถแก้ค่านี้ตามปีที่ต้องการให้แสดงในตัวเลือกฟิลเตอร์ได้
-
-  // ตัวอย่างข้อมูลใน REPORT_TYPE_LIST
-  const REPORT_TYPE_LIST = [
-    { rep_type_id: 1, type_name: "Report Type A" },
-    { rep_type_id: 2, type_name: "Report Type B" },
-    { rep_type_id: 3, type_name: "Report Type C" },]
 
   const filterReports = (reportItem) => {
-    const { advisor, year, rep_type, status } = selectedFilters;
+    const { advisor, year, rep_type, status, prominence } = selectedFilters;
 
     return (
       (search.toLowerCase() === "" ||
@@ -107,9 +113,10 @@ function Tables() {
         advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
         reportItem.prominence.toLowerCase().includes(search.toLowerCase())) &&
       (advisor === "" || advisors[reportItem["1stAdvisor_id"]] === advisor) &&
-      (year === "" || reportItem.year === year) &&
-      (rep_type === "" || reportItem.rep_type_id === rep_type) &&
-      (status === "" || reportItem.status === status)
+      (year === "" || reportItem.year === Number(year)) &&
+      (rep_type === "" || reportItem.rep_type_id === Number(rep_type)) &&
+      (status === "" || reportItem.status === status) &&
+      (prominence === "" || reportItem.prominence === prominence)
     );
   };
 
@@ -182,74 +189,86 @@ function Tables() {
         </Button>
       </div>
 
-      <SectionTitle>Filter By</SectionTitle>
-      <div className="flex justify-between mb-4">
-        <div className="relative flex-1 mr-4">
-          <label className="text-gray-700 dark:text-gray-200">Advisor:</label>
-          <select
-            value={selectedFilters.advisor}
-            onChange={(e) => handleSelectFilter("advisor", e.target.value)}
-            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-          >
-            <option value="">Select Advisor</option>
-            {Object.values(advisors).map((advisor, index) => (
-              <option key={index} value={advisor}>
-                {advisor}
-              </option>
-            ))}
-          </select>
-        </div>
+      <SectionTitle className="mr-2">Filter By</SectionTitle>
 
-        <div className="relative flex-1 mr-4">
-          <label className="text-gray-700 dark:text-gray-200">Year:</label>
-          <select
-            value={selectedFilters.year}
-            onChange={(e) => handleSelectFilter("year", e.target.value)}
-            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-          >
-            <option value="">Select Year</option>
-            {/* Replace 'YEAR_LIST' with an array containing available years */}
-            {YEAR_LIST.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="flex justify-between mb-5">
+        <div className="flex flex-wrap space-x-3 items-center">
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.advisor}
+              onChange={(e) => handleSelectFilter("advisor", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Advisor</option>
+              {Object.values(advisors).map((advisor, index) => (
+                <option key={index} value={advisor}>
+                  {advisor}
+                </option>
+              ))}
+            </Select>
+          </div>
 
-        <div className="relative flex-1 mr-4">
-          <label className="text-gray-700 dark:text-gray-200">Report Type:</label>
-          <select
-            value={selectedFilters.rep_type}
-            onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
-            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-          >
-            <option value="">Select Report Type</option>
-            {/* Replace 'REPORT_TYPE_LIST' with an array containing available report types */}
-            {REPORT_TYPE_LIST.map((reportType) => (
-              <option key={reportType.rep_type_id} value={reportType.rep_type_id}>
-                {reportType.type_name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.year}
+              onChange={(e) => handleSelectFilter("year", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Year</option>
+              {Array.from(new Set(response.map((reportItem) => reportItem.year))).map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
+                </option>
+              ))}
+            </Select>
+          </div>
 
-        <div className="relative flex-1 mr-4">
-          <label className="text-gray-700 dark:text-gray-200">Status:</label>
-          <select
-            value={selectedFilters.status}
-            onChange={(e) => handleSelectFilter("status", e.target.value)}
-            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-          >
-            <option value="">Select Status</option>
-            <option value="มีให้ยืม">มีให้ยืม</option>
-            <option value="ถูกยืม">ถูกยืม</option>
-            <option value="สูญหาย">สูญหาย</option>
-            {/* Add more status options if needed */}
-          </select>
+
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.rep_type}
+              onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Type</option>
+              <option value="1">Undergraduate</option>
+              <option value="2">COOP</option>
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.status}
+              onChange={(e) => handleSelectFilter("status", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Status</option>
+              <option value="มีให้ยืม">มีให้ยืม</option>
+              <option value="ถูกยืม">ถูกยืม</option>
+              <option value="สูญหาย">สูญหาย</option>
+              {/* Add more status options if needed */}
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.prominence}
+              onChange={(e) => handleSelectFilter("prominence", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Prominence</option>
+              <option value="โดดเด่น">โดดเด่น</option>
+              <option value="-">-</option>
+            </Select>
+          </div>
+
         </div>
+        <Button layout="outline" onClick={clearFilters} className="flex items-center">
+          <span>Clear Filter</span>
+        </Button>
+
       </div>
-
 
       <TableContainer className="mb-8">
         <Table>
