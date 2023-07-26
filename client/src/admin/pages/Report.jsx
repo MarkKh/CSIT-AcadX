@@ -56,6 +56,13 @@ function Tables() {
     }
   };
 
+  const [selectedFilters, setSelectedFilters] = useState({
+    advisor: "",
+    year: "",
+    rep_type: "",
+    status: "",
+  });
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -66,22 +73,43 @@ function Tables() {
         .filter(filterReports)
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
-  }, [report, response, search]);
+  }, [report, response, search, selectedFilters]); 
 
   const totalResults = response.length;
 
+  const handleSelectFilter = (filterName, value) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+  };
+
+  const YEAR_LIST = [2558 ,2561,2021, 2022, 2023, 2024]; // สามารถแก้ค่านี้ตามปีที่ต้องการให้แสดงในตัวเลือกฟิลเตอร์ได้
+
+  // ตัวอย่างข้อมูลใน REPORT_TYPE_LIST
+  const REPORT_TYPE_LIST = [
+    { rep_type_id: 1, type_name: "Report Type A" },
+    { rep_type_id: 2, type_name: "Report Type B" },
+    { rep_type_id: 3, type_name: "Report Type C" },]
+
   const filterReports = (reportItem) => {
+    const { advisor, year, rep_type, status } = selectedFilters;
+
     return (
-      search.toLowerCase() === "" ||
-      reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
-      reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
-      reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-      reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-      reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-      reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-      reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
-      advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
-      reportItem.prominence.toLowerCase().includes(search.toLowerCase())
+      (search.toLowerCase() === "" ||
+        reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
+        reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
+        advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem.prominence.toLowerCase().includes(search.toLowerCase())) &&
+      (advisor === "" || advisors[reportItem["1stAdvisor_id"]] === advisor) &&
+      (year === "" || reportItem.year === year) &&
+      (rep_type === "" || reportItem.rep_type_id === rep_type) &&
+      (status === "" || reportItem.status === status)
     );
   };
 
@@ -152,6 +180,74 @@ function Tables() {
             Add Data
           </Link>
         </Button>
+      </div>
+
+      <SectionTitle>Filter By</SectionTitle>
+      <div className="flex justify-between mb-4">
+        <div className="relative flex-1 mr-4">
+          <label className="text-gray-700 dark:text-gray-200">Advisor:</label>
+          <select
+            value={selectedFilters.advisor}
+            onChange={(e) => handleSelectFilter("advisor", e.target.value)}
+            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+          >
+            <option value="">Select Advisor</option>
+            {Object.values(advisors).map((advisor, index) => (
+              <option key={index} value={advisor}>
+                {advisor}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="relative flex-1 mr-4">
+          <label className="text-gray-700 dark:text-gray-200">Year:</label>
+          <select
+            value={selectedFilters.year}
+            onChange={(e) => handleSelectFilter("year", e.target.value)}
+            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+          >
+            <option value="">Select Year</option>
+            {/* Replace 'YEAR_LIST' with an array containing available years */}
+            {YEAR_LIST.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="relative flex-1 mr-4">
+          <label className="text-gray-700 dark:text-gray-200">Report Type:</label>
+          <select
+            value={selectedFilters.rep_type}
+            onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
+            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+          >
+            <option value="">Select Report Type</option>
+            {/* Replace 'REPORT_TYPE_LIST' with an array containing available report types */}
+            {REPORT_TYPE_LIST.map((reportType) => (
+              <option key={reportType.rep_type_id} value={reportType.rep_type_id}>
+                {reportType.type_name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="relative flex-1 mr-4">
+          <label className="text-gray-700 dark:text-gray-200">Status:</label>
+          <select
+            value={selectedFilters.status}
+            onChange={(e) => handleSelectFilter("status", e.target.value)}
+            className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+          >
+            <option value="">Select Status</option>
+            <option value="มีให้ยืม">มีให้ยืม</option>
+            <option value="ถูกยืม">ถูกยืม</option>
+            <option value="สูญหาย">สูญหาย</option>
+            {/* Add more status options if needed */}
+          </select>
+        </div>
       </div>
 
 

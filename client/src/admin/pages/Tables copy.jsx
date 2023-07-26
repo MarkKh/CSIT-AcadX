@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
-import CTA from "../components/CTA";
 import {
   Table,
   TableHeader,
@@ -16,12 +15,10 @@ import {
   Button,
   Pagination,
   Input,
-
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
-
-
+import Swal from 'sweetalert2'
 
 function Tables() {
   const [report, setReport] = useState(1);
@@ -30,103 +27,99 @@ function Tables() {
   const [response, setResponse] = useState([]);
   const [popupData, setPopupData] = useState(null);
   const [search, setSearch] = useState("");
-
-  const fetchReports = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/reports");
-      setResponse(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  function onPageChangeReport(p) {
-    setReport(p);
-  }
-
-  useEffect(() => {
-    fetchReports();
-  }, []);
-
-  useEffect(() => {
-    setDataReports(
-      response.slice((report - 1) * resultsPerPage, report * resultsPerPage)
-    );
-  }, [report, response]);
-
-  const totalResults = response.length;
-
-  //advisor
   const [advisors, setAdvisors] = useState({});
-
-  useEffect(() => {
-    fetch("http://localhost:3000/advisors")
-      .then((response) => response.json())
-      .then((data) => {
-        const advisorsMap = {};
-        data.forEach((advisor) => {
-          advisorsMap[advisor.advisor_id] = advisor.name;
-        });
-        setAdvisors(advisorsMap);
-      })
-      .catch((error) => {
-        console.error("Error fetching advisors:", error);
-      });
-  }, []);
-
   const [reportType, setReportType] = useState({});
-  useEffect(() => {
-    fetch("http://localhost:3000/reporttypes")
-      .then((response) => response.json())
-      .then((data) => {
-        const reportTypeMap = {};
-        data.forEach((report_type) => {
-          reportTypeMap[report_type.rep_type_id] = report_type.type_name;
-        });
-        setReportType(reportTypeMap);
-      })
-      .catch((error) => {
-        console.error("Error fetching reportType:", error);
-      });
-  }, []);
 
-  const handleDelete = async (repCode) => {
-    const confirmDelete = window.confirm(
-      "Do you want to delete this report?"
-    );
-    if (confirmDelete) {
-      try {
-        await axios.delete(`http://localhost:3000/report/${repCode}`);
-        fetchReports();
-        alert("Delete successfully");
-      } catch (error) {
-        alert(error);
-        console.error("Error :", error);
-      }
+  const fetchData = async () => {
+    try {
+      const [reportsResponse, advisorsResponse, reportTypesResponse] = await Promise.all([
+        axios.get("http://localhost:3000/reports"),
+        axios.get("http://localhost:3000/advisors"),
+        axios.get("http://localhost:3000/reporttypes")
+      ]);
+
+      setResponse(reportsResponse.data);
+
+      const advisorsMap = {};
+      advisorsResponse.data.forEach((advisor) => {
+        advisorsMap[advisor.advisor_id] = advisor.name;
+      });
+      setAdvisors(advisorsMap);
+
+      const reportTypeMap = {};
+      reportTypesResponse.data.forEach((report_type) => {
+        reportTypeMap[report_type.rep_type_id] = report_type.type_name;
+      });
+      setReportType(reportTypeMap);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setDataReports(
       response
-        .filter((reportItem) => {
-          return (
-            search.toLowerCase() === "" ||
-            reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
-            reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
-            advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem.prominence.toLowerCase().includes(search.toLowerCase())
-          );
-        })
+        .filter(filterReports)
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
   }, [report, response, search]);
 
+  const totalResults = response.length;
+
+  const filterReports = (reportItem) => {
+    return (
+      search.toLowerCase() === "" ||
+      reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
+      reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
+      reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
+      reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
+      reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
+      reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
+      reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
+      advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
+      reportItem.prominence.toLowerCase().includes(search.toLowerCase())
+    );
+  };
+
+  const handleDelete = async (repCode) => {
+    const shouldDelete = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (shouldDelete.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:3000/report/${repCode}`);
+        fetchData();
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
+      } catch (error) {
+        Swal.fire(
+          'Error!',
+          'An error occurred while deleting the report.',
+          'error'
+        );
+        console.error("Error:", error);
+      }
+    }
+  };
+
+
+  const onPageChangeReport = (p) => {
+    setReport(p);
+  };
 
   const openPopup = (data) => {
     setPopupData(data);
@@ -134,7 +127,7 @@ function Tables() {
 
   const closePopup = () => {
     setPopupData(null);
-    fetchReports();
+    fetchData();
   };
 
   return (
@@ -168,7 +161,7 @@ function Tables() {
             <tr>
               <TableCell className="w-2/7">Report</TableCell>
               <TableCell className="w-1/7">1st Student</TableCell>
-              <TableCell >2nd Student</TableCell>
+              <TableCell className="w-1/7">2nd Student</TableCell>
               <TableCell className="w-1/7">Status</TableCell>
               <TableCell className="w-1/7">Advisor</TableCell>
               <TableCell className="w-1/7">Actions</TableCell>
@@ -177,18 +170,9 @@ function Tables() {
 
           <TableBody>
             {dataReports
-              .filter((reportItem) => {
+              .filter(() => {
                 return (
-                  search.toLowerCase() === "" ||
-                  reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
-                  advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem.prominence.toLowerCase().includes(search.toLowerCase())
+                  { filterReports }
                 );
               })
               .map((reportItem, i) => (
