@@ -20,6 +20,7 @@ import {
   Avatar,
   Badge,
   Pagination,
+  Alert
 } from '@windmill/react-ui'
 
 import {
@@ -109,6 +110,9 @@ function Dashboard() {
           />
         </InfoCard>
       </div>
+
+      
+
 
 
       {/*
