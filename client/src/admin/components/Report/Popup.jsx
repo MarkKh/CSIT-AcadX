@@ -53,6 +53,12 @@ function Popup({ data, onClose }) {
     abstract: "Abstract",
   };
 
+  const statusOptions = [
+    { value: "มีให้ยืม", label: "มีให้ยืม" },
+    { value: "ถูกยืม", label: "ถูกยืม" },
+    { value: "สูญหาย", label: "สูญหาย" },
+  ];
+
   const handleFieldChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -112,81 +118,104 @@ function Popup({ data, onClose }) {
           </button>
         </div>
         <div className="text-sm">
-            <Table>
-              <tbody>
-                {Object.entries(formData).map(([field, value]) => {
-                  if (!fieldsToExclude.includes(field)) {
-                    let fieldName = fieldDisplayNames[field] || field;
+          <Table>
+            <tbody>
+              {Object.entries(formData).map(([field, value]) => {
+                if (!fieldsToExclude.includes(field)) {
+                  let fieldName = fieldDisplayNames[field] || field;
 
-                    if (field === "rep_type_id" && reportType[value]) {
-                      const currentRepType = reportType[value];
-
-                      return (
-                        <tr key={field}>
-                          <td className="pr-4 font-semibold">{fieldName}</td>
-                          <td>
-                            <select
-                              name={field}
-                              value={value}
-                              onChange={handleFieldChange}
-                              className="border border-gray-300 rounded px-2 py-1 w-full"
-                            >
-                              <option value={value}>{currentRepType}</option>
-                              {Object.entries(reportType).map(([id, type_name]) => (
-                                <option key={id} value={id}>
-                                  {type_name}
-                                </option>
-                              ))}
-                            </select>
-                          </td>
-                        </tr>
-                      );
-                    }
-
-                    if (field === "1stAdvisor_id" && advisors[value]) {
-                      const currentAdvisorName = advisors[value];
-
-                      return (
-                        <tr key={field}>
-                          <td className="pr-4 font-semibold">{fieldName}</td>
-                          <td>
-                            <select
-                              name={field}
-                              value={value}
-                              onChange={handleFieldChange}
-                              className="border border-gray-300 rounded px-2 py-1 w-full"
-                            >
-                              <option value={value}>{currentAdvisorName}</option>
-                              {Object.entries(advisors).map(([id, name]) => (
-                                <option key={id} value={id}>
-                                  {name}
-                                </option>
-                              ))}
-                            </select>
-                          </td>
-                        </tr>
-                      );
-                    }
+                  if (field === "rep_type_id" && reportType[value]) {
+                    const currentRepType = reportType[value];
 
                     return (
                       <tr key={field}>
                         <td className="pr-4 font-semibold">{fieldName}</td>
                         <td>
-                          <input
-                            type="text"
+                          <select
                             name={field}
                             value={value}
                             onChange={handleFieldChange}
                             className="border border-gray-300 rounded px-2 py-1 w-full"
-                          />
+                          >
+                            <option value={value}>{currentRepType}</option>
+                            {Object.entries(reportType).map(([id, type_name]) => (
+                              <option key={id} value={id}>
+                                {type_name}
+                              </option>
+                            ))}
+                          </select>
                         </td>
                       </tr>
                     );
                   }
-                  return null;
-                })}
-              </tbody>
-            </Table>
+
+                  if (field === "1stAdvisor_id" && advisors[value]) {
+                    const currentAdvisorName = advisors[value];
+
+                    return (
+                      <tr key={field}>
+                        <td className="pr-4 font-semibold">{fieldName}</td>
+                        <td>
+                          <select
+                            name={field}
+                            value={value}
+                            onChange={handleFieldChange}
+                            className="border border-gray-300 rounded px-2 py-1 w-full"
+                          >
+                            <option value={value}>{currentAdvisorName}</option>
+                            {Object.entries(advisors).map(([id, name]) => (
+                              <option key={id} value={id}>
+                                {name}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                    );
+                  }
+
+                  if (field === "status") {
+                    // แสดง select option สำหรับ status
+                    return (
+                      <tr key={field}>
+                        <td className="pr-4 font-semibold">{fieldName}</td>
+                        <td>
+                          <select
+                            name={field}
+                            value={value}
+                            onChange={handleFieldChange}
+                            className="border border-gray-300 rounded px-2 py-1 w-full"
+                          >
+                            {statusOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                    );
+                  }
+
+                  return (
+                    <tr key={field}>
+                      <td className="pr-4 font-semibold">{fieldName}</td>
+                      <td>
+                        <input
+                          type="text"
+                          name={field}
+                          value={value}
+                          onChange={handleFieldChange}
+                          className="border border-gray-300 rounded px-2 py-1 w-full"
+                        />
+                      </td>
+                    </tr>
+                  );
+                }
+                return null;
+              })}
+            </tbody>
+          </Table>
         </div>
         <div className="flex justify-end mt-4">
           <Button onClick={onClose} size="small" className="mr-2">
