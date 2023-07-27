@@ -13,8 +13,6 @@ function Popup({ data, onClose }) {
             try {
                 const [advisorsResponse] = await Promise.all([
                     axios.get("http://localhost:3000/advisors"),
-
-
                 ]);
                 const advisorsMap = {};
                 advisorsResponse.data.forEach((advisor) => {
@@ -48,7 +46,7 @@ function Popup({ data, onClose }) {
                 'Update successfully',
                 'Good job bro!',
                 'success'
-              )
+            )
         } catch (error) {
             console.error("Error updating report:", error);
         }
@@ -114,6 +112,24 @@ function Popup({ data, onClose }) {
                                                             {name}
                                                         </option>
                                                     ))}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                                if (field === "semester") {
+                                    return (
+                                        <tr key={field}>
+                                            <td className="pr-4 font-semibold">{fieldName}</td>
+                                            <td>
+                                                <select
+                                                    name={field}
+                                                    value={value}
+                                                    onChange={handleFieldChange}
+                                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                                >
+                                                    <option value={1}>1</option>
+                                                    <option value={2}>2</option>
                                                 </select>
                                             </td>
                                         </tr>
