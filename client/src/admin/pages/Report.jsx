@@ -21,7 +21,7 @@ import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
 import Swal from 'sweetalert2'
 
-function Tables() {
+function Reports() {
   const [report, setReport] = useState(1);
   const [dataReports, setDataReports] = useState([]);
   const resultsPerPage = 10;
@@ -192,7 +192,20 @@ function Tables() {
       <SectionTitle className="mr-2">Filter By</SectionTitle>
 
       <div className="flex justify-between mb-5">
-        <div className="flex flex-wrap space-x-1 items-center">
+        <div className="flex flex-wrap space-x-2 items-center">
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.rep_type}
+              onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Type</option>
+              <option value="1">Undergraduate</option>
+              <option value="2">COOP</option>
+            </Select>
+          </div>
+
           <div className="relative flex-1">
             <Select
               value={selectedFilters.advisor}
@@ -220,20 +233,6 @@ function Tables() {
                   {year}
                 </option>
               ))}
-            </Select>
-          </div>
-
-
-
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.rep_type}
-              onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Select Type</option>
-              <option value="1">Undergraduate</option>
-              <option value="2">COOP</option>
             </Select>
           </div>
 
@@ -265,7 +264,7 @@ function Tables() {
 
         </div>
         <Button layout="link" onClick={clearFilters} className="flex items-center">
-          <span>Clear Filter</span>
+          <span>Clear</span>
         </Button>
 
       </div>
@@ -395,4 +394,4 @@ function Tables() {
   );
 }
 
-export default Tables;
+export default Reports;
