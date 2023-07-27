@@ -97,7 +97,6 @@ function Reports() {
     }));
   };
 
-
   const filterReports = (reportItem) => {
     const { advisor, year, rep_type, status, prominence } = selectedFilters;
 
@@ -169,8 +168,6 @@ function Reports() {
     <>
       <PageTitle>Academic Reports</PageTitle>
 
-
-      <SectionTitle>Table with actions</SectionTitle>
       <div className="flex justify-between mb-4">
         <div className="relative flex-1 mr-4">
           <Input
