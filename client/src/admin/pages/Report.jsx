@@ -7,11 +7,13 @@ import {
   Button,
   Input,
 } from "@windmill/react-ui";
-import Popup from "../components/Report/Popup";
+import Swal from 'sweetalert2'
+// component
+import Popup from "../components/Report/ReportPopup";
 import ReportTable from "../components/Report/ReportTable";
 import ReportFilter from "../components/Report/ReportFilter";
 import CSVUploader from "../components/Report/CSVUploader";
-import Swal from 'sweetalert2'
+import ReportSearch from "../components/Report/ReportSearch"
 
 function Reports() {
   const [report, setReport] = useState(1);
@@ -162,31 +164,16 @@ function Reports() {
     <>
       <PageTitle>Academic Reports</PageTitle>
 
-
+      {/* CSVUploader */}
       <CSVUploader fetchData={fetchData} />
 
-      <div className="flex justify-between mb-4">
-        <div className="relative flex-1 mr-4">
-          <Input
-            type="text"
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search..."
-            className="border border-gray-300 p-2 rounded-md focus:outline-none w-full"
-          />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-          </div>
-        </div>
-        <Button>
-          <Link to="./report/insert">
-            Add Data
-          </Link>
-        </Button>
-      </div>
+      {/* ReportSearch */}
+      <ReportSearch setSearch={setSearch} />
 
       <SectionTitle className="mr-2">Filter By</SectionTitle>
 
-       {/* เลือกกรองข้อมูลของรายงาน */}
-       <ReportFilter
+      {/* ReportFilter */}
+      <ReportFilter
         selectedFilters={selectedFilters}
         advisors={advisors}
         response={response}
@@ -194,7 +181,7 @@ function Reports() {
         clearFilters={clearFilters}
       />
 
-      {/* ตารางรายงาน */}
+      {/* ReportTable */}
       <ReportTable
         dataReports={dataReports}
         filterReports={filterReports}
