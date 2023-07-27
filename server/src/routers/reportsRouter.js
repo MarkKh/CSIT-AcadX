@@ -181,8 +181,6 @@ function reportsRouter(app, connection) {
     });
   });
   
-  
-
   app.get("/reports/count", (req, res) => {
     connection.query(
       "SELECT year, COUNT(CASE WHEN rep_type_id = 1 THEN 1 END) AS UG, COUNT(CASE WHEN rep_type_id = 2 THEN 1 END) AS COOP FROM reports GROUP BY year",
