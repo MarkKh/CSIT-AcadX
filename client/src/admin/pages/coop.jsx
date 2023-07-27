@@ -15,11 +15,12 @@ import {
   Button,
   Pagination,
   Input,
+  Select
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Coop/Popup";
 import Swal from 'sweetalert2'
-
+import provinceData from '../components/utils/province.json'
 
 function Tables() {
   const [coop, setCoop] = useState([]);
@@ -55,7 +56,6 @@ function Tables() {
     fetchData();
   }, []);
 
-
   const handleDelete = async (coopId) => {
     const shouldDelete = await Swal.fire({
       title: 'Are you sure?',
@@ -87,26 +87,58 @@ function Tables() {
     }
   };
 
+
+  const [selectedFilters, setSelectedFilters] = useState({
+    major: "",
+    province: "",
+    advisor_id: "",
+    semester: "",
+    year: ""
+  });
+
+  const clearFilters = () => {
+    setSelectedFilters({
+      major: "",
+      province: "",
+      advisor_id: "",
+      semester: "",
+      year: ""
+    });
+  };
+
+  const handleSelectFilter = (filterName, value) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+  };
+
   useEffect(() => {
     setDataCoop(
       response
         .filter(filteredCoop)
         .slice((coop - 1) * resultsPerPage, coop * resultsPerPage)
     );
-  }, [coop, response, search]);
+  }, [coop, response, search, selectedFilters]);
 
   const filteredCoop = (coop) => {
+    const { major, province, advisor_id, semester, year } = selectedFilters;
     return (
-      search.toLowerCase() === "" ||
-      coop.student_id.toLowerCase().includes(search.toLowerCase()) ||
-      coop.major.toLowerCase().includes(search.toLowerCase()) ||
-      coop.company.toLowerCase().includes(search.toLowerCase()) ||
-      coop.student_name.toLowerCase().includes(search.toLowerCase()) ||
-      coop.province.toLowerCase().includes(search.toLowerCase()) ||
-      advisors[coop.advisor_id].toLowerCase().includes(search.toLowerCase()) ||
-      coop.semester.toString().includes(search) ||
-      coop.year.toString().includes(search) ||
-      coop.coop_id.toString().includes(search)
+      (search.toLowerCase() === "" ||
+        coop.student_id.toLowerCase().includes(search.toLowerCase()) ||
+        coop.major.toLowerCase().includes(search.toLowerCase()) ||
+        coop.company.toLowerCase().includes(search.toLowerCase()) ||
+        coop.student_name.toLowerCase().includes(search.toLowerCase()) ||
+        coop.province.toLowerCase().includes(search.toLowerCase()) ||
+        advisors[coop.advisor_id].toLowerCase().includes(search.toLowerCase()) ||
+        coop.semester.toString().includes(search) ||
+        coop.year.toString().includes(search) ||
+        coop.coop_id.toString().includes(search)) &&
+      (major === "" || coop.major === major) &&
+      (province === "" || coop.province === province) &&
+      (advisor_id === "" || advisors[coop.advisor_id] === advisor_id) &&
+      (semester === "" || coop.semester === Number(semester)) &&
+      (year === "" || coop.year === Number(year))
     );
   };
 
@@ -144,6 +176,92 @@ function Tables() {
         <Button>
           <Link to="./coop/insert">Add Data</Link>
         </Button>
+      </div>
+
+      <div className="flex justify-between mb-5">
+        <div className="flex flex-wrap space-x-2 items-center">
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.advisor_id}
+              onChange={(e) => handleSelectFilter("advisor_id", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Advisor</option>
+              {Object.values(advisors).map((advisor, index) => (
+                <option key={index} value={advisor}>
+                  {advisor}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.semester}
+              onChange={(e) => handleSelectFilter("semester", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Semester</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.year}
+              onChange={(e) => handleSelectFilter("year", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Year</option>
+              {Array.from(new Set(response.map((coop) => coop.year))).map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.major}
+              onChange={(e) => handleSelectFilter("major", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Major</option>
+              <option value="วิทยาการคอมพิวเตอร์">Computer Science</option>
+              <option value="เทคโนโลยีสารสนเทศ">Information Technology</option>
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.province}
+              onChange={(e) => handleSelectFilter("province", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Province</option>
+              {response
+                .map((coop) => coop.province)
+                .filter((value, index, self) => self.indexOf(value) === index)
+                .sort()
+                .map((province) => (
+                  <option key={province} value={province}>
+                    {province}
+                  </option>
+                ))}
+            </Select>
+          </div>
+
+
+
+        </div>
+
+        <Button layout="link" onClick={clearFilters} className="flex items-center">
+          <span>Clear</span>
+        </Button>
+
       </div>
 
       <TableContainer className="mb-8">
