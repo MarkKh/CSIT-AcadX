@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
@@ -20,6 +20,7 @@ import {
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
 import Swal from 'sweetalert2'
+import { CSVReader } from 'react-csv-reader';
 
 function Reports() {
   const [report, setReport] = useState(1);
@@ -164,9 +165,49 @@ function Reports() {
     fetchData();
   };
 
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+  };
+
+  const handleCSVUpload = () => {
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    axios.post('http://localhost:3000/api/upload', formData)
+      .then((response) => {
+        console.log('Data uploaded successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data uploaded successfully',
+        });
+        fetchData();
+      })
+      .catch((error) => {
+        console.error('Error uploading data:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while uploading data',
+        });
+      });
+  };
+
   return (
     <>
       <PageTitle>Academic Reports</PageTitle>
+
+
+      <div>
+        <input type="file" accept=".csv" onChange={handleFileChange} />
+        <button onClick={handleCSVUpload}>Upload CSV</button>
+      </div>
 
       <div className="flex justify-between mb-4">
         <div className="relative flex-1 mr-4">
