@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
-import CTA from "../components/CTA";
 import {
   Table,
   TableHeader,
@@ -16,12 +15,11 @@ import {
   Button,
   Pagination,
   Input,
-
+  Select
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
-
-
+import Swal from 'sweetalert2'
 
 function Tables() {
   const [report, setReport] = useState(1);
@@ -30,103 +28,133 @@ function Tables() {
   const [response, setResponse] = useState([]);
   const [popupData, setPopupData] = useState(null);
   const [search, setSearch] = useState("");
-
-  const fetchReports = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/reports");
-      setResponse(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  function onPageChangeReport(p) {
-    setReport(p);
-  }
-
-  useEffect(() => {
-    fetchReports();
-  }, []);
-
-  useEffect(() => {
-    setDataReports(
-      response.slice((report - 1) * resultsPerPage, report * resultsPerPage)
-    );
-  }, [report, response]);
-
-  const totalResults = response.length;
-
-  //advisor
   const [advisors, setAdvisors] = useState({});
-
-  useEffect(() => {
-    fetch("http://localhost:3000/advisors")
-      .then((response) => response.json())
-      .then((data) => {
-        const advisorsMap = {};
-        data.forEach((advisor) => {
-          advisorsMap[advisor.advisor_id] = advisor.name;
-        });
-        setAdvisors(advisorsMap);
-      })
-      .catch((error) => {
-        console.error("Error fetching advisors:", error);
-      });
-  }, []);
-
   const [reportType, setReportType] = useState({});
-  useEffect(() => {
-    fetch("http://localhost:3000/reporttypes")
-      .then((response) => response.json())
-      .then((data) => {
-        const reportTypeMap = {};
-        data.forEach((report_type) => {
-          reportTypeMap[report_type.rep_type_id] = report_type.type_name;
-        });
-        setReportType(reportTypeMap);
-      })
-      .catch((error) => {
-        console.error("Error fetching reportType:", error);
-      });
-  }, []);
 
-  const handleDelete = async (repCode) => {
-    const confirmDelete = window.confirm(
-      "Do you want to delete this report?"
-    );
-    if (confirmDelete) {
-      try {
-        await axios.delete(`http://localhost:3000/report/${repCode}`);
-        fetchReports();
-        alert("Delete successfully");
-      } catch (error) {
-        alert(error);
-        console.error("Error :", error);
-      }
+  const fetchData = async () => {
+    try {
+      const [reportsResponse, advisorsResponse, reportTypesResponse] = await Promise.all([
+        axios.get("http://localhost:3000/reports"),
+        axios.get("http://localhost:3000/advisors"),
+        axios.get("http://localhost:3000/reporttypes")
+      ]);
+
+      setResponse(reportsResponse.data);
+
+      const advisorsMap = {};
+      advisorsResponse.data.forEach((advisor) => {
+        advisorsMap[advisor.advisor_id] = advisor.name;
+      });
+      setAdvisors(advisorsMap);
+
+      const reportTypeMap = {};
+      reportTypesResponse.data.forEach((report_type) => {
+        reportTypeMap[report_type.rep_type_id] = report_type.type_name;
+      });
+      setReportType(reportTypeMap);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
+
+  const [selectedFilters, setSelectedFilters] = useState({
+    advisor: "",
+    year: "",
+    rep_type: "",
+    status: "",
+    prominence: ""
+  });
+
+  const clearFilters = () => {
+    setSelectedFilters({
+      advisor: "",
+      year: "",
+      rep_type: "",
+      status: "",
+      prominence: ""
+    });
+  };
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setDataReports(
       response
-        .filter((reportItem) => {
-          return (
-            search.toLowerCase() === "" ||
-            reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
-            reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
-            advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
-            reportItem.prominence.toLowerCase().includes(search.toLowerCase())
-          );
-        })
+        .filter(filterReports)
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
-  }, [report, response, search]);
+  }, [report, response, search, selectedFilters]);
 
+  const totalResults = response.length;
+
+  const handleSelectFilter = (filterName, value) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+  };
+
+
+  const filterReports = (reportItem) => {
+    const { advisor, year, rep_type, status, prominence } = selectedFilters;
+
+    return (
+      (search.toLowerCase() === "" ||
+        reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
+        reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
+        advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
+        reportItem.prominence.toLowerCase().includes(search.toLowerCase())) &&
+      (advisor === "" || advisors[reportItem["1stAdvisor_id"]] === advisor) &&
+      (year === "" || reportItem.year === Number(year)) &&
+      (rep_type === "" || reportItem.rep_type_id === Number(rep_type)) &&
+      (status === "" || reportItem.status === status) &&
+      (prominence === "" || reportItem.prominence === prominence)
+    );
+  };
+
+  const handleDelete = async (repCode) => {
+    const shouldDelete = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (shouldDelete.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:3000/report/${repCode}`);
+        fetchData();
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
+      } catch (error) {
+        Swal.fire(
+          'Error!',
+          'An error occurred while deleting the report.',
+          'error'
+        );
+        console.error("Error:", error);
+      }
+    }
+  };
+
+
+  const onPageChangeReport = (p) => {
+    setReport(p);
+  };
 
   const openPopup = (data) => {
     setPopupData(data);
@@ -134,7 +162,7 @@ function Tables() {
 
   const closePopup = () => {
     setPopupData(null);
-    fetchReports();
+    fetchData();
   };
 
   return (
@@ -161,6 +189,88 @@ function Tables() {
         </Button>
       </div>
 
+      <SectionTitle>Filter By</SectionTitle>
+      <div className="flex justify-between mb-5">
+        <div className="flex flex-wrap space-x-5">
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.advisor}
+              onChange={(e) => handleSelectFilter("advisor", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Advisor</option>
+              {Object.values(advisors).map((advisor, index) => (
+                <option key={index} value={advisor}>
+                  {advisor}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.year}
+              onChange={(e) => handleSelectFilter("year", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Year</option>
+              {Array.from(new Set(response.map((reportItem) => reportItem.year))).map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.rep_type}
+              onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Type</option>
+              <option value="1">Undergraduate</option>
+              <option value="2">COOP</option>
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.status}
+              onChange={(e) => handleSelectFilter("status", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Status</option>
+              <option value="มีให้ยืม">มีให้ยืม</option>
+              <option value="ถูกยืม">ถูกยืม</option>
+              <option value="สูญหาย">สูญหาย</option>
+              {/* Add more status options if needed */}
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.prominence}
+              onChange={(e) => handleSelectFilter("prominence", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Select Prominence</option>
+              <option value="โดดเด่น">โดดเด่น</option>
+              <option value="-">-</option>
+            </Select>
+          </div>
+
+
+        </div>
+        <Button layout="outline" size="small" onClick={clearFilters}>
+          Clear Filter
+        </Button>
+
+      </div>
+
+
 
       <TableContainer className="mb-8">
         <Table>
@@ -168,7 +278,7 @@ function Tables() {
             <tr>
               <TableCell className="w-2/7">Report</TableCell>
               <TableCell className="w-1/7">1st Student</TableCell>
-              <TableCell >2nd Student</TableCell>
+              <TableCell className="w-1/7">2nd Student</TableCell>
               <TableCell className="w-1/7">Status</TableCell>
               <TableCell className="w-1/7">Advisor</TableCell>
               <TableCell className="w-1/7">Actions</TableCell>
@@ -177,18 +287,9 @@ function Tables() {
 
           <TableBody>
             {dataReports
-              .filter((reportItem) => {
+              .filter(() => {
                 return (
-                  search.toLowerCase() === "" ||
-                  reportItem.rep_code.toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem.title.toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["1st_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["1st_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["2nd_student_id"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem["2nd_student_name"].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem.status.toLowerCase().includes(search.toLowerCase()) ||
-                  advisors[reportItem["1stAdvisor_id"]].toLowerCase().includes(search.toLowerCase()) ||
-                  reportItem.prominence.toLowerCase().includes(search.toLowerCase())
+                  { filterReports }
                 );
               })
               .map((reportItem, i) => (
