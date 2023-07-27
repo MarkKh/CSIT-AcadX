@@ -175,7 +175,6 @@ function Popup({ data, onClose }) {
                   }
 
                   if (field === "status") {
-                    // แสดง select option สำหรับ status
                     return (
                       <tr key={field}>
                         <td className="pr-4 font-semibold">{fieldName}</td>
