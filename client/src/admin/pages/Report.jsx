@@ -4,23 +4,14 @@ import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
 import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableBody,
-  TableRow,
-  TableFooter,
-  TableContainer,
-  Badge,
   Button,
-  Pagination,
   Input,
-  Select
 } from "@windmill/react-ui";
-import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Report/Popup";
+import ReportTable from "../components/Report/ReportTable";
+import ReportFilter from "../components/Report/ReportFilter";
+import CSVUploader from "../components/Report/CSVUploader";
 import Swal from 'sweetalert2'
-import { CSVReader } from 'react-csv-reader';
 
 function Reports() {
   const [report, setReport] = useState(1);
@@ -166,48 +157,13 @@ function Reports() {
   };
 
 
-  const [file, setFile] = useState(null);
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-  };
-
-  const handleCSVUpload = () => {
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    axios.post('http://localhost:3000/api/upload', formData)
-      .then((response) => {
-        console.log('Data uploaded successfully');
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'Data uploaded successfully',
-        });
-        fetchData();
-      })
-      .catch((error) => {
-        console.error('Error uploading data:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while uploading data',
-        });
-      });
-  };
 
   return (
     <>
       <PageTitle>Academic Reports</PageTitle>
 
 
-      <div>
-        <input type="file" accept=".csv" onChange={handleFileChange} />
-        <button onClick={handleCSVUpload}>Upload CSV</button>
-      </div>
+      <CSVUploader fetchData={fetchData} />
 
       <div className="flex justify-between mb-4">
         <div className="relative flex-1 mr-4">
@@ -229,202 +185,24 @@ function Reports() {
 
       <SectionTitle className="mr-2">Filter By</SectionTitle>
 
-      <div className="flex justify-between mb-5">
-        <div className="flex flex-wrap space-x-2 items-center">
+       {/* เลือกกรองข้อมูลของรายงาน */}
+       <ReportFilter
+        selectedFilters={selectedFilters}
+        advisors={advisors}
+        response={response}
+        handleSelectFilter={handleSelectFilter}
+        clearFilters={clearFilters}
+      />
 
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.rep_type}
-              onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Select Type</option>
-              <option value="1">Undergraduate</option>
-              <option value="2">COOP</option>
-            </Select>
-          </div>
-
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.advisor}
-              onChange={(e) => handleSelectFilter("advisor", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Select Advisor</option>
-              {Object.values(advisors).map((advisor, index) => (
-                <option key={index} value={advisor}>
-                  {advisor}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.year}
-              onChange={(e) => handleSelectFilter("year", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Select Year</option>
-              {Array.from(new Set(response.map((reportItem) => reportItem.year))).map((year, index) => (
-                <option key={index} value={year}>
-                  {year}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.status}
-              onChange={(e) => handleSelectFilter("status", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Select Status</option>
-              <option value="มีให้ยืม">มีให้ยืม</option>
-              <option value="ถูกยืม">ถูกยืม</option>
-              <option value="สูญหาย">สูญหาย</option>
-              {/* Add more status options if needed */}
-            </Select>
-          </div>
-
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.prominence}
-              onChange={(e) => handleSelectFilter("prominence", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Select Prominence</option>
-              <option value="โดดเด่น">โดดเด่น</option>
-              <option value="-">-</option>
-            </Select>
-          </div>
-
-        </div>
-        <Button layout="link" onClick={clearFilters} className="flex items-center">
-          <span>Clear</span>
-        </Button>
-
-      </div>
-
-      <TableContainer className="mb-8">
-        <Table>
-          <TableHeader>
-            <tr>
-              <TableCell className="w-2/7">Report</TableCell>
-              <TableCell className="w-1/7">1st Student</TableCell>
-              <TableCell className="w-1/7">2nd Student</TableCell>
-              <TableCell className="w-1/7">Status</TableCell>
-              <TableCell className="w-1/7">Advisor</TableCell>
-              <TableCell className="w-1/7">Actions</TableCell>
-            </tr>
-          </TableHeader>
-
-          <TableBody>
-            {dataReports
-              .filter(() => {
-                return (
-                  { filterReports }
-                );
-              })
-              .map((reportItem, i) => (
-                <TableRow key={i}>
-                  <TableCell>
-                    <div className="flex items-center text-sm">
-                      <div>
-                        <div className="flex items-center space-x-2">
-                          <h1 className="font-semibold">
-                            {reportItem.rep_code}
-                          </h1>
-                          {reportItem.prominence === "โดดเด่น" ? (
-                            <Badge type="primary">โดดเด่น</Badge>
-                          ) : null}
-                        </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">
-                          {reportItem.title}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center text-sm">
-                      <div>
-                        <p className="font-semibold">
-                          {reportItem["1st_student_id"]}
-                        </p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">
-                          {reportItem["1st_student_name"]}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center text-sm">
-                      <div>
-                        {reportItem["2nd_student_id"] === '-' ? (
-                          <span className="bg-indigo-100 text-indigo-800 text-xs font-medium mr-5 px-4 py-1 rounded-full dark:bg-indigo-900 dark:text-indigo-300">Not found</span>
-                        ) : (
-                          <p className="font-semibold">{reportItem["2nd_student_id"]}</p>
-                        )}
-                        {reportItem["2nd_student_name"] !== '-' && (
-                          <p className="text-xs text-gray-600 dark:text-gray-400">
-                            {reportItem["2nd_student_name"]}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      type={
-                        reportItem.status === "มีให้ยืม"
-                          ? "success"
-                          : reportItem.status === "ถูกยืม"
-                            ? "warning"
-                            : "danger"
-                      }
-                    >
-                      {reportItem.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm">
-                      {advisors[reportItem["1stAdvisor_id"]]}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-4">
-                      <Button
-                        layout="link"
-                        size="icon"
-                        aria-label="Edit"
-                        onClick={() => openPopup(reportItem)}
-                      >
-                        <EditIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                      <Button
-                        layout="link"
-                        size="icon"
-                        aria-label="Delete"
-                        onClick={() => handleDelete(reportItem.rep_code)}
-                      >
-                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TableFooter>
-          <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            onChange={onPageChangeReport}
-            label="Table navigation"
-          />
-        </TableFooter>
-      </TableContainer>
+      {/* ตารางรายงาน */}
+      <ReportTable
+        dataReports={dataReports}
+        filterReports={filterReports}
+        advisors={advisors}
+        handleDelete={handleDelete}
+        openPopup={openPopup}
+        setReport={setReport}
+      />
 
 
       {popupData && <Popup data={popupData} onClose={closePopup} />}
