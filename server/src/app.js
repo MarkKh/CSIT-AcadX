@@ -36,6 +36,8 @@ reportsRouter(app, connection);
 reporttypeRouter(app, connection);
 loanRouter(app, connection)
 
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

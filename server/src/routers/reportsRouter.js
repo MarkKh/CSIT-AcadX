@@ -1,4 +1,7 @@
+const fileUpload = require("express-fileupload");
+
 function reportsRouter(app, connection) {
+  app.use(fileUpload());
   // Read all records
   app.get("/reports", (req, res) => {
     connection.query("SELECT * FROM reports", (err, results) => {
@@ -125,6 +128,60 @@ function reportsRouter(app, connection) {
       }
     );
   });
+
+  app.post("/api/upload", (req, res) => {
+    if (!req.files || !req.files.file) {
+      return res.status(400).json({ error: "No CSV file uploaded" });
+    }
+  
+    const file = req.files.file;
+  
+    // Assuming the CSV has a header row, remove it before inserting into the database
+    const dataRows = file.data.toString().trim().split("\n").slice(1);
+  
+    // Prepare the data for insertion into the database
+    const values = dataRows.map((row) => {
+      const columns = row.split(",");
+  
+      // Create an object with the correct property names and values
+      const report = {
+        rep_code: columns[0],
+        title: columns[1],
+        rep_type_id: columns[2],
+        "1st_student_id": columns[3],
+        "1st_student_name": columns[4],
+        "2nd_student_id": columns[5],
+        "2nd_student_name": columns[6],
+        year: columns[7],
+        "1stAdvisor_id": columns[8],
+        status: columns[9],
+        prominence: columns[10],
+        keyword: columns[11],
+        abstract: columns[12],
+      };
+  
+      return Object.values(report);
+    });
+  
+    // Insert the data into the database
+    const sql =
+      "INSERT IGNORE INTO reports (rep_code, title, rep_type_id, 1st_student_id, 1st_student_name, 2nd_student_id, 2nd_student_name, year, 1stAdvisor_id, status, prominence, keyword, abstract) VALUES ?";
+    
+    connection.query(sql, [values], (err) => {
+      if (err) {
+        console.error("Error inserting data into the database:", err);
+        return res
+          .status(500)
+          .json({ error: "Failed to insert data into the database" });
+      }
+  
+      return res
+        .status(200)
+        .json({ message: "Data uploaded and inserted successfully" });
+    });
+  });
+  
+  
 
   app.get("/reports/count", (req, res) => {
     connection.query(
