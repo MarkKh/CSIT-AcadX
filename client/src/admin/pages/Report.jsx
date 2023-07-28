@@ -14,6 +14,7 @@ import ReportTable from "../components/Report/ReportTable";
 import ReportFilter from "../components/Report/ReportFilter";
 import CSVUploader from "../components/Report/CSVUploader";
 import ReportSearch from "../components/Report/ReportSearch"
+import ReportExcel from "../components/Report/ReportDataToExcel";
 
 function Reports() {
   const [report, setReport] = useState(1);
@@ -74,6 +75,7 @@ function Reports() {
     fetchData();
   }, []);
 
+
   useEffect(() => {
     setDataReports(
       response
@@ -90,6 +92,8 @@ function Reports() {
       [filterName]: value,
     }));
   };
+
+
 
   const filterReports = (reportItem) => {
     const { advisor, year, rep_type, status, prominence } = selectedFilters;
@@ -112,6 +116,8 @@ function Reports() {
       (prominence === "" || reportItem.prominence === prominence)
     );
   };
+
+  const dataToExcel = response.filter(filterReports)
 
   const handleDelete = async (repCode) => {
     const shouldDelete = await Swal.fire({
@@ -190,6 +196,11 @@ function Reports() {
         handleDelete={handleDelete}
         openPopup={openPopup}
         setReport={setReport}
+
+      />
+
+      <ReportExcel
+        dataToExcel={dataToExcel}
 
       />
 
