@@ -5,6 +5,7 @@ import PageTitle from '../components/Typography/PageTitle';
 import SectionTitle from '../components/Typography/SectionTitle';
 import { Input, Label, Select, Textarea, Button } from '@windmill/react-ui';
 import Swal from 'sweetalert2'
+import CSVUploader from "../components/Report/CSVUploader";
 
 function Forms() {
 
@@ -76,9 +77,9 @@ function Forms() {
     <>
       <PageTitle>Forms</PageTitle>
       <CTA />
-      <SectionTitle>Add Report Data</SectionTitle>
+      <SectionTitle>Add Report Data By row</SectionTitle>
 
-      <div className="px-4 py-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">      
+      <div className="px-4 py-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-2 w-4/6 mx-auto">
             <Label>
@@ -91,7 +92,7 @@ function Forms() {
               value={reportData.rep_code}
               onChange={handleInputChange}
               required
-              
+
             />
 
             <Label>
@@ -281,6 +282,8 @@ function Forms() {
         </form>
 
       </div>
+
+      <CSVUploader />
     </>
   );
 }
