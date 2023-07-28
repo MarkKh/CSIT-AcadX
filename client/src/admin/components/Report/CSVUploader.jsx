@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import { Button, Input } from "@windmill/react-ui";
 
-
 function CSVUploader({ fetchData }) {
   const [file, setFile] = useState(null);
 
@@ -26,8 +25,12 @@ function CSVUploader({ fetchData }) {
           icon: 'success',
           title: 'Success',
           text: 'Data uploaded successfully',
-        });
-        fetchData();
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/admin/Reports";
+            fetchData();
+          }
+        })
       })
       .catch((error) => {
         console.error('Error uploading data:', error);
@@ -50,7 +53,7 @@ function CSVUploader({ fetchData }) {
             type="file"
             accept=".csv"
             onChange={handleFileChange}
-            />
+          />
           <Button onClick={handleCSVUpload}>Upload</Button>
         </div>
 
