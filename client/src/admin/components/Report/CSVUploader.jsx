@@ -53,6 +53,7 @@ function CSVUploader({ fetchData }) {
             type="file"
             accept=".csv"
             onChange={handleFileChange}
+            required
           />
           <Button onClick={handleCSVUpload}>Upload</Button>
         </div>
