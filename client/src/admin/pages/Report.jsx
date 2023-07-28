@@ -165,7 +165,7 @@ function Reports() {
       <PageTitle>Academic Reports</PageTitle>
 
       {/* CSVUploader */}
-      <CSVUploader fetchData={fetchData} />
+      {/* <CSVUploader fetchData={fetchData} /> */}
 
       {/* ReportSearch */}
       <ReportSearch setSearch={setSearch} />
@@ -184,11 +184,13 @@ function Reports() {
       {/* ReportTable */}
       <ReportTable
         dataReports={dataReports}
+        response={response}
         filterReports={filterReports}
         advisors={advisors}
         handleDelete={handleDelete}
         openPopup={openPopup}
         setReport={setReport}
+
       />
 
 
