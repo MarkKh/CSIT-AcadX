@@ -18,7 +18,7 @@ function CSVUploader({ fetchData }) {
     const formData = new FormData();
     formData.append("file", file);
 
-    axios.post('http://localhost:3000/api/upload', formData)
+    axios.post('http://localhost:3000/coop/upload', formData)
       .then((response) => {
         console.log('Data uploaded successfully');
         Swal.fire({
@@ -53,7 +53,6 @@ function CSVUploader({ fetchData }) {
             type="file"
             accept=".csv"
             onChange={handleFileChange}
-            required
           />
           <Button onClick={handleCSVUpload}>Upload</Button>
         </div>
