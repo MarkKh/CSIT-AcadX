@@ -26,13 +26,16 @@ function ReportFilter({ selectedFilters, advisors, response, handleSelectFilter,
               className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >
               <option value="">Select Advisor</option>
-              {Object.values(advisors).map((advisor, index) => (
-                <option key={index} value={advisor}>
-                  {advisor}
-                </option>
-              ))}
+              {Object.values(advisors)
+                .sort((a, b) => a.localeCompare(b)) // เรียงตามตัวอักษร
+                .map((advisor, index) => (
+                  <option key={index} value={advisor}>
+                    {advisor}
+                  </option>
+                ))}
             </Select>
           </div>
+
 
           <div className="relative flex-1">
             <Select
