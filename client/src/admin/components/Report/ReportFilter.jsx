@@ -27,7 +27,7 @@ function ReportFilter({ selectedFilters, advisors, response, handleSelectFilter,
             >
               <option value="">Select Advisor</option>
               {Object.values(advisors)
-                .sort((a, b) => a.localeCompare(b)) // เรียงตามตัวอักษร
+                .sort((a, b) => a.localeCompare(b)) 
                 .map((advisor, index) => (
                   <option key={index} value={advisor}>
                     {advisor}
