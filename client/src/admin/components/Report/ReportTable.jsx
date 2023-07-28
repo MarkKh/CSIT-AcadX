@@ -2,8 +2,8 @@ import React from "react";
 import { Table, TableHeader, TableCell, TableBody, TableRow, TableFooter, TableContainer, Badge, Button, Pagination } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../../icons";
 
-function ReportTable({ dataReports, filterReports, advisors, handleDelete, openPopup,setReport }) {
-  const totalResults = dataReports.length;
+function ReportTable({ dataReports,response, filterReports, advisors, handleDelete, openPopup,setReport }) {
+  const totalResults = response.length;
   const resultsPerPage = 10;
 
   const onPageChangeReport = (p) => {
