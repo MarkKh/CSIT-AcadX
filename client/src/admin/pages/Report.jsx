@@ -6,6 +6,7 @@ import SectionTitle from "../components/Typography/SectionTitle";
 import {
   Button,
   Input,
+  Badge
 } from "@windmill/react-ui";
 import Swal from 'sweetalert2'
 // component
@@ -176,7 +177,12 @@ function Reports() {
       {/* ReportSearch */}
       <ReportSearch setSearch={setSearch} />
 
-      <SectionTitle className="mr-2">Filter By</SectionTitle>
+      <div className="flex items-center justify-between">
+        <SectionTitle className="mr-2">Filter By</SectionTitle>
+        <div className="flex py-4 justify-end">
+          <Badge type="primary">   Found {dataToExcel.length} item   </Badge>
+        </div>
+      </div>
 
       {/* ReportFilter */}
       <ReportFilter
@@ -186,6 +192,8 @@ function Reports() {
         handleSelectFilter={handleSelectFilter}
         clearFilters={clearFilters}
       />
+
+
 
       {/* ReportTable */}
       <ReportTable
@@ -199,9 +207,9 @@ function Reports() {
 
       />
 
+      {/* ReportExcel */}
       <ReportExcel
         dataToExcel={dataToExcel}
-
       />
 
 
