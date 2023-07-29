@@ -18,8 +18,12 @@ import {
     Label,
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
-import Popup from "../components/Advisor/Popup";
+import Popup from "../components/Advisor/AdvisorPopup";
 import Swal from 'sweetalert2'
+import AdvisorTable from "../components/Advisor/AdvisorTable";
+import AdvisorSearch from "../components/Advisor/AdvisorSearch";
+import AdvisorForm from "../components/Advisor/AdvisorForm";
+import AdvisorDataToExcel from "../components/Advisor/AdvisorDataToExcel"
 
 function Advisor() {
     const [advisors, setAdvisors] = useState([]);
@@ -101,6 +105,7 @@ function Advisor() {
     };
 
     const totalResults = response.length;
+    const dataToExcel = response
 
     const openPopup = (data) => {
         setPopupData(data);
@@ -128,6 +133,9 @@ function Advisor() {
                     'Good job bro!',
                     'success'
                 );
+            }).catch((error) => {
+                console.error("Error saving report:", error);
+                alert("Error: " + error.message);
             })
             .then((result) => {
                 // Only redirect if the SweetAlert is closed (by pressing "OK")
@@ -135,10 +143,7 @@ function Advisor() {
                     window.location.href = "/admin/advisor";
                 }
             })
-            .catch((error) => {
-                console.error("Error saving report:", error);
-                alert("Error: " + error.message);
-            });
+
     };
 
 
@@ -161,102 +166,35 @@ function Advisor() {
                 </div>
             </div>
 
-            <div className="flex justify-between mb-4">
-                <Input
-                    type="text"
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search..."
-                    className="border border-gray-300 p-2 rounded-md focus:outline-none w-full"
-                />
-            </div>
+            <AdvisorSearch
+                search={search}
+                setSearch={setSearch}
+            />
 
-            <TableContainer className="mb-8">
-                <Table>
-                    <TableHeader>
-                        <tr>
-                            <TableCell className="w-1/5">ID</TableCell>
-                            <TableCell className="w-3/5">Advisor</TableCell>
-                            <TableCell className="w-1/5">Actions</TableCell>
-                        </tr>
-                    </TableHeader>
-                    <TableBody>
-                        {dataAdvisor.map((advisor, i) => (
-                            <TableRow key={i}>
-                                <TableCell>
-                                    <div className="flex items-center text-sm">
-                                        <Badge type="primary">{advisor.advisor_id}</Badge>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center text-sm">
-                                        {advisor.name}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center space-x-4">
-                                        <Button
-                                            layout="link"
-                                            size="icon"
-                                            aria-label="Edit"
-                                            onClick={() => openPopup(advisor)}
-                                        >
-                                            <EditIcon className="w-5 h-5" aria-hidden="true" />
-                                        </Button>
-                                        <Button
-                                            onClick={() => handleDelete(advisor.advisor_id)}
-                                            layout="link"
-                                            size="icon"
-                                            aria-label="Delete"
-                                        >
-                                            <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <TableFooter>
-                    <Pagination
-                        totalResults={totalResults}
-                        resultsPerPage={resultsPerPage}
-                        label="Table navigation"
-                        onChange={handlePageChange}
-                        currentPage={currentPage}
-                    />
-                </TableFooter>
-            </TableContainer>
+            <AdvisorTable
+                dataAdvisor={dataAdvisor}
+                handlePageChange={handlePageChange}
+                currentPage={currentPage}
+                totalResults={totalResults}
+                handleDelete={handleDelete}
+                openPopup={openPopup}
+            />
+
+            <AdvisorDataToExcel
+                dataToExcel={dataToExcel}
+
+            />
 
             {popupData && <Popup data={popupData} onClose={closePopup} />}
 
 
             <SectionTitle>Add Advisor</SectionTitle>
 
-            <div className="px-4 py-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <form onSubmit={handleSubmit} className="flex items-center">
-                    <div className="flex-1 grid grid-cols-2 gap-3">
-                        <div className="flex items-center space-x-2">
-                            <Input
-                                className="px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                                placeholder="Enter advisor name"
-                                name="name"
-                                value={addAdvisor.name}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-                                Save
-                            </Button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-
-
-
-
-
+            <AdvisorForm
+                addAdvisor={addAdvisor}
+                handleInputChange={handleInputChange}
+                handleSubmit={handleSubmit}
+            />
         </>
     );
 }
