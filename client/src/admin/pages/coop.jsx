@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
+import {
+  Badge
+} from "@windmill/react-ui";
 import Popup from "../components/Coop/CoopPopup";
 import Swal from 'sweetalert2'
 import CoopFilter from '../components/Coop/CoopFilter';
 import CoopSearch from '../components/Coop/CoopSearch';
 import CoopTable from '../components/Coop/CoopTable';
+import CoopDataToExcel from '../components/Coop/CoopDataToExcel'
 
 function Coop() {
   const [coop, setCoop] = useState([]);
@@ -128,6 +132,9 @@ function Coop() {
     );
   };
 
+  const dataToExcel = response.filter(filteredCoop)
+
+
   const handlePageChange = (p) => {
     setCoop(p);
   };
@@ -148,9 +155,14 @@ function Coop() {
     <>
       <PageTitle>Cooperatives</PageTitle>
 
-      <SectionTitle>Table with actions</SectionTitle>
-
       <CoopSearch search={search} setSearch={setSearch} />
+
+      <div className="flex items-center justify-between">
+        <SectionTitle className="mr-2">Filter By</SectionTitle>
+        <div className="flex py-4 justify-end">
+          <Badge type="primary">   Found {dataToExcel.length} item   </Badge>
+        </div>
+      </div>
 
       <CoopFilter
         response={response}
@@ -168,6 +180,11 @@ function Coop() {
         advisors={advisors}
         handleDelete={handleDelete}
         openPopup={openPopup}
+      />
+
+      {/* CoopDataToExcel */}
+      <CoopDataToExcel
+        dataToExcel={dataToExcel}
       />
 
 
