@@ -1,5 +1,3 @@
-// ReportDataToExcel.jsx
-
 import React from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -17,7 +15,7 @@ const ReportDataToExcel = ({ dataToExcel }) => {
         const worksheet = XLSX.utils.json_to_sheet(dataToExcel);
 
         // Add the Worksheet to the Workbook
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Academic Reports");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Advisor Data");
 
         // Create an Excel buffer
         const excelBuffer = XLSX.write(workbook, { type: "array" });
@@ -28,7 +26,7 @@ const ReportDataToExcel = ({ dataToExcel }) => {
         });
 
         // Download the Excel file
-        saveAs(blob, "academic_reports.xlsx");
+        saveAs(blob, "Advisor data.xlsx");
     };
 
     return (
