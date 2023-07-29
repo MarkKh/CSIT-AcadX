@@ -6,6 +6,7 @@ import SectionTitle from "../components/Typography/SectionTitle";
 import {
   Button,
   Input,
+  Badge
 } from "@windmill/react-ui";
 import Swal from 'sweetalert2'
 // component
@@ -14,6 +15,7 @@ import ReportTable from "../components/Report/ReportTable";
 import ReportFilter from "../components/Report/ReportFilter";
 import CSVUploader from "../components/Report/CSVUploader";
 import ReportSearch from "../components/Report/ReportSearch"
+import ReportExcel from "../components/Report/ReportDataToExcel";
 
 function Reports() {
   const [report, setReport] = useState(1);
@@ -74,6 +76,7 @@ function Reports() {
     fetchData();
   }, []);
 
+
   useEffect(() => {
     setDataReports(
       response
@@ -90,6 +93,8 @@ function Reports() {
       [filterName]: value,
     }));
   };
+
+
 
   const filterReports = (reportItem) => {
     const { advisor, year, rep_type, status, prominence } = selectedFilters;
@@ -112,6 +117,8 @@ function Reports() {
       (prominence === "" || reportItem.prominence === prominence)
     );
   };
+
+  const dataToExcel = response.filter(filterReports)
 
   const handleDelete = async (repCode) => {
     const shouldDelete = await Swal.fire({
@@ -170,7 +177,12 @@ function Reports() {
       {/* ReportSearch */}
       <ReportSearch setSearch={setSearch} />
 
-      <SectionTitle className="mr-2">Filter By</SectionTitle>
+      <div className="flex items-center justify-between">
+        <SectionTitle className="mr-2">Filter By</SectionTitle>
+        <div className="flex py-4 justify-end">
+          <Badge type="primary">   Found {dataToExcel.length} item   </Badge>
+        </div>
+      </div>
 
       {/* ReportFilter */}
       <ReportFilter
@@ -180,6 +192,8 @@ function Reports() {
         handleSelectFilter={handleSelectFilter}
         clearFilters={clearFilters}
       />
+
+
 
       {/* ReportTable */}
       <ReportTable
@@ -191,6 +205,11 @@ function Reports() {
         openPopup={openPopup}
         setReport={setReport}
 
+      />
+
+      {/* ReportExcel */}
+      <ReportExcel
+        dataToExcel={dataToExcel}
       />
 
 

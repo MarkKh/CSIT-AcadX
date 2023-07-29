@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Button } from "@windmill/react-ui";
+import { Input, Button } from '@windmill/react-ui';
 
-function ReportSearch({search, setSearch }) {
+function CoopSearch({ search, setSearch }) {
   return (
     <div className="flex justify-between mb-4">
       <div className="relative flex-1 mr-4">
@@ -15,12 +15,10 @@ function ReportSearch({search, setSearch }) {
         />
       </div>
       <Button>
-        <Link to="./report/insert">
-          Add Data
-        </Link>
+        <Link to="./coop/insert">Add Data</Link>
       </Button>
     </div>
   );
 }
 
-export default ReportSearch;
+export default CoopSearch;

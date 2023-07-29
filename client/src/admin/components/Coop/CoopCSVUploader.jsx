@@ -18,7 +18,7 @@ function CSVUploader({ fetchData }) {
     const formData = new FormData();
     formData.append("file", file);
 
-    axios.post('http://localhost:3000/api/upload', formData)
+    axios.post('http://localhost:3000/coop/upload', formData)
       .then((response) => {
         console.log('Data uploaded successfully');
         Swal.fire({
@@ -27,7 +27,7 @@ function CSVUploader({ fetchData }) {
           text: 'Data uploaded successfully',
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = "/admin/Reports";
+            window.location.href = "/admin/coop";
             fetchData();
           }
         })
@@ -44,7 +44,7 @@ function CSVUploader({ fetchData }) {
 
   return (
     <div>
-      <SectionTitle>Add Report Data By CSV</SectionTitle>
+      <SectionTitle>Add Cooparative Data By CSV</SectionTitle>
 
       <div className="px-4 py-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex space-x-2">
@@ -53,7 +53,6 @@ function CSVUploader({ fetchData }) {
             type="file"
             accept=".csv"
             onChange={handleFileChange}
-            required
           />
           <Button onClick={handleCSVUpload}>Upload</Button>
         </div>
