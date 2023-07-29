@@ -15,7 +15,7 @@ import {
     Button,
     Pagination,
     Input,
-    Label
+    Label,
 } from "@windmill/react-ui";
 import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Advisor/Popup";
@@ -153,7 +153,13 @@ function Advisor() {
     return (
         <>
             <PageTitle>Advisor Management</PageTitle>
-            <SectionTitle>Table with actions</SectionTitle>
+
+            <div className="flex items-center justify-between">
+                <SectionTitle>Table with actions</SectionTitle>
+                <div className="flex py-4 justify-end">
+                    <Badge type="primary">   Found {response.filter(filterAdvisor).length} item   </Badge>
+                </div>
+            </div>
 
             <div className="flex justify-between mb-4">
                 <Input
