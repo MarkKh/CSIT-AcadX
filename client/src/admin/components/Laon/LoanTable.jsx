@@ -7,6 +7,8 @@ function LoanData({ dataLoan, response, filterLoan, report, setLoan, handleDelet
     const totalResults = response.length;
     const resultsPerPage = 10;
 
+    const sortedDataLoan = dataLoan.sort((a, b) => b.loan_id - a.loan_id);
+
     const onPageChangeLoan = (p) => {
         setLoan(p);
     };
@@ -17,7 +19,6 @@ function LoanData({ dataLoan, response, filterLoan, report, setLoan, handleDelet
                 <Table>
                     <TableHeader>
                         <tr>
-                            <TableCell className="w-2/7">ID</TableCell>
                             <TableCell className="w-1/7">Report Information</TableCell>
                             <TableCell className="w-1/7">Borrower Information</TableCell>
                             <TableCell className="w-1/7">Start date</TableCell>
@@ -28,7 +29,7 @@ function LoanData({ dataLoan, response, filterLoan, report, setLoan, handleDelet
                     </TableHeader>
 
                     <TableBody>
-                        {dataLoan
+                        {sortedDataLoan
                             .filter(() => {
                                 return (
                                     { filterLoan }
@@ -36,11 +37,6 @@ function LoanData({ dataLoan, response, filterLoan, report, setLoan, handleDelet
                             })
                             .map((loanItem, i) => (
                                 <TableRow key={i}>
-                                    <TableCell>
-                                        <div className="flex items-center text-sm">
-                                            {loanItem.loan_id}
-                                        </div>
-                                    </TableCell>
 
                                     <TableCell>
                                         <div className="flex items-center text-sm">

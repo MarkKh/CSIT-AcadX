@@ -24,8 +24,8 @@ import dayjs from 'dayjs';
 import Popup from "../components/Laon/LoanPopup"
 import LoanTable from "../components/Laon/LoanTable"
 import LoanFilter from "../components/Laon/LoanFilter"
-import ReportSearch from "../components/Laon/LoanSearch"
-
+import LoanSearch from "../components/Laon/LoanSearch"
+import LoanExcel from "../components/Laon/LoanDataToExcel"
 
 function Loan() {
     const resultsPerPage = 10;
@@ -212,7 +212,7 @@ function Loan() {
                 </div>
             </div>
 
-            <ReportSearch setSearch={setSearch} />
+            <LoanSearch setSearch={setSearch} />
 
             <LoanFilter
                 selectedFilters={selectedFilters}
@@ -230,6 +230,10 @@ function Loan() {
                 handleDelete={handleDelete}
                 handleReturn={handleReturn}
                 openPopup={openPopup}
+            />
+
+            <LoanExcel
+                dataToExcel={dataToExcel}
             />
 
             {popupData && <Popup data={popupData} onClose={closePopup} />}
