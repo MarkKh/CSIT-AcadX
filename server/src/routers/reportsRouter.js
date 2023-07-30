@@ -190,6 +190,24 @@ function reportsRouter(app, connection) {
       }
     );
   });
+
+  app.put("/loanReport/:rep_code", (req, res) => {
+    const repCode = req.params.rep_code;
+    const { status } = req.body; // Assuming the updated status is sent in the request body
+  
+    const updateData = {
+      status: status,
+    };
+  
+    connection.query("UPDATE reports SET ? WHERE rep_code = ?", [updateData, repCode], (err) => {
+      if (err) {
+        console.error("Error updating report:", err);
+        return res.status(500).json({ error: "An error occurred while updating the report." });
+      }
+  
+      res.json({ message: "Report status updated successfully" });
+    });
+  });
 }
 
 module.exports = reportsRouter;
