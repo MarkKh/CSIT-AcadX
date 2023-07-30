@@ -7,7 +7,7 @@ function AdvisorForm({ addAdvisor,handleInputChange,handleSubmit }) {
   return (
     <div className="px-4 py-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <form onSubmit={handleSubmit} className="flex items-center">
-        <div className="flex-1 grid grid-cols-2 gap-3">
+        <div className="flex-1 grid gap-3">
           <div className="flex items-center space-x-2">
             <Input
               className="px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
