@@ -1,33 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button,Input,Select } from "@windmill/react-ui";
+import { Button, Input, Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
-    const [advisors, setAdvisors] = useState({});
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [advisorsResponse] = await Promise.all([
-                    axios.get("http://localhost:3000/advisors"),
-                ]);
-                const advisorsMap = {};
-                advisorsResponse.data.forEach((advisor) => {
-                    advisorsMap[advisor.advisor_id] = advisor.name;
-                });
-                setAdvisors(advisorsMap);
-
-            } catch (error) {
-                console.error("Error fetching data:", error);
-
-            }
-        }
-        fetchData();
-
-    }, []);
 
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
@@ -40,7 +18,7 @@ function Popup({ data, onClose }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/cooperative/${data.coop_id}`, formData);
+            await axios.put(`http://localhost:3000/loan/${data.loan_id}`, formData);
             onClose();
             Swal.fire(
                 'Update successfully',
@@ -65,6 +43,19 @@ function Popup({ data, onClose }) {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [onClose]);
+
+    const majors = [
+        { value: "Computer Science", label: "Computer Science" },
+        { value: "Information Technology", label: "Information Technology" },
+        { value: "etc", label: "Teacher, administrator, etc." },
+    ];
+
+    const statusOptions = [
+        { value: "Active", label: "Active" },
+        { value: "InActive", label: "InActive" },
+    ];
+
+
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -91,9 +82,7 @@ function Popup({ data, onClose }) {
                     <table className="w-full">
                         <tbody>
                             {Object.entries(formData).map(([field, value]) => {
-                                let fieldName = field || field;
-
-                                if (field === 'coop_id') {
+                                if (field === 'loan_id' || field === 'rep_code' || field === 'start_date' || field === 'end_date') {
                                     // แสดงเฉพาะข้อมูลเท่านั้น ไม่ให้แก้ไข
                                     return (
                                         <tr key={field}>
@@ -109,14 +98,11 @@ function Popup({ data, onClose }) {
                                             </td>
                                         </tr>
                                     );
-                                }
-
-                                if (field === "advisor_id" && advisors[value]) {
-                                    const currentAdvisorName = advisors[value];
-
+                                } else if (field === 'major') {
+                                    // แสดงฟิลด์ major และ status เป็นตัวเลือกในการแก้ไข
                                     return (
                                         <tr key={field}>
-                                            <td className="pr-4 font-semibold">{fieldName}</td>
+                                            <td className="pr-4 font-semibold">{field}</td>
                                             <td>
                                                 <Select
                                                     name={field}
@@ -124,21 +110,20 @@ function Popup({ data, onClose }) {
                                                     onChange={handleFieldChange}
                                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                                 >
-                                                    <option value={value}>{currentAdvisorName}</option>
-                                                    {Object.entries(advisors).map(([id, name]) => (
-                                                        <option key={id} value={id}>
-                                                            {name}
+                                                    {majors.map((option) => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
                                                         </option>
                                                     ))}
                                                 </Select>
                                             </td>
                                         </tr>
                                     );
-                                }
-                                if (field === "semester") {
+                                }else if (field === 'status') {
+                                    // แสดงฟิลด์ major และ status เป็นตัวเลือกในการแก้ไข
                                     return (
                                         <tr key={field}>
-                                            <td className="pr-4 font-semibold">{fieldName}</td>
+                                            <td className="pr-4 font-semibold">{field}</td>
                                             <td>
                                                 <Select
                                                     name={field}
@@ -146,27 +131,32 @@ function Popup({ data, onClose }) {
                                                     onChange={handleFieldChange}
                                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                                 >
-                                                    <option value={1}>1</option>
-                                                    <option value={2}>2</option>
+                                                    {statusOptions.map((option) => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
                                                 </Select>
                                             </td>
                                         </tr>
                                     );
+                                } else {
+                                    // แสดงข้อมูลอื่น ๆ และอนุญาตให้แก้ไข
+                                    return (
+                                        <tr key={field}>
+                                            <td className="pr-4 font-semibold">{field}</td>
+                                            <td>
+                                                <input
+                                                    type="text"
+                                                    name={field}
+                                                    value={value}
+                                                    onChange={handleFieldChange}
+                                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
                                 }
-                                return (
-                                    <tr key={field}>
-                                        <td className="pr-4 font-semibold">{field}</td>
-                                        <td>
-                                            <Input
-                                                type="text"
-                                                name={field}
-                                                value={value}
-                                                onChange={handleFieldChange}
-                                                className="border border-gray-300 rounded px-2 py-1 w-full"
-                                            />
-                                        </td>
-                                    </tr>
-                                )
                             })}
 
                         </tbody>

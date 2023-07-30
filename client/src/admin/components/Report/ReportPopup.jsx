@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Table, TableContainer } from "@windmill/react-ui";
+import { Button, Table, TableContainer, Input, Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
 
@@ -131,7 +131,7 @@ function Popup({ data, onClose }) {
                       <tr key={field}>
                         <td className="pr-4 font-semibold">{fieldName}</td>
                         <td>
-                          <select
+                          <Select
                             name={field}
                             value={value}
                             onChange={handleFieldChange}
@@ -143,7 +143,7 @@ function Popup({ data, onClose }) {
                                 {type_name}
                               </option>
                             ))}
-                          </select>
+                          </Select>
                         </td>
                       </tr>
                     );
@@ -156,7 +156,7 @@ function Popup({ data, onClose }) {
                       <tr key={field}>
                         <td className="pr-4 font-semibold">{fieldName}</td>
                         <td>
-                          <select
+                          <Select
                             name={field}
                             value={value}
                             onChange={handleFieldChange}
@@ -168,7 +168,7 @@ function Popup({ data, onClose }) {
                                 {name}
                               </option>
                             ))}
-                          </select>
+                          </Select>
                         </td>
                       </tr>
                     );
@@ -179,7 +179,7 @@ function Popup({ data, onClose }) {
                       <tr key={field}>
                         <td className="pr-4 font-semibold">{fieldName}</td>
                         <td>
-                          <select
+                          <Select
                             name={field}
                             value={value}
                             onChange={handleFieldChange}
@@ -190,7 +190,7 @@ function Popup({ data, onClose }) {
                                 {option.label}
                               </option>
                             ))}
-                          </select>
+                          </Select>
                         </td>
                       </tr>
                     );
@@ -200,7 +200,7 @@ function Popup({ data, onClose }) {
                     <tr key={field}>
                       <td className="pr-4 font-semibold">{fieldName}</td>
                       <td>
-                        <input
+                        <Input
                           type="text"
                           name={field}
                           value={value}

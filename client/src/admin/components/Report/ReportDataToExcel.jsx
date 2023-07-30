@@ -32,13 +32,9 @@ const ReportDataToExcel = ({ dataToExcel }) => {
     };
 
     return (
-        <div className="py-5">
-            <div className="flex justify-center">
-                <Button layout="outline" onClick={handleExportExcel}>Export to Excel</Button>
-            </div>
+        <div className="flex px-1 py-8 justify-center">
+            <Button layout="outline" onClick={handleExportExcel}>Export to Excel</Button>
         </div>
-
-
     )
 };
 

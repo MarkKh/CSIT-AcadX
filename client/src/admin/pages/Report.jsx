@@ -11,6 +11,7 @@ import {
 import Swal from 'sweetalert2'
 // component
 import Popup from "../components/Report/ReportPopup";
+import ReportLoan from "../components/Report/ReportLoan"
 import ReportTable from "../components/Report/ReportTable";
 import ReportFilter from "../components/Report/ReportFilter";
 import CSVUploader from "../components/Report/CSVUploader";
@@ -165,7 +166,15 @@ function Reports() {
     fetchData();
   };
 
+  const [loanPopupData, setLoanPopupData] = useState(null);
 
+  const openLoan = (data) => {
+    setLoanPopupData(data);
+  }
+  const closeLoan = () => {
+    setLoanPopupData(null);
+    fetchData();
+  }
 
   return (
     <>
@@ -193,8 +202,6 @@ function Reports() {
         clearFilters={clearFilters}
       />
 
-
-
       {/* ReportTable */}
       <ReportTable
         dataReports={dataReports}
@@ -204,7 +211,7 @@ function Reports() {
         handleDelete={handleDelete}
         openPopup={openPopup}
         setReport={setReport}
-
+        openLoan={openLoan}
       />
 
       {/* ReportExcel */}
@@ -214,6 +221,7 @@ function Reports() {
 
 
       {popupData && <Popup data={popupData} onClose={closePopup} />}
+      {loanPopupData && <ReportLoan data={loanPopupData} onClose={closeLoan} />}
     </>
   );
 }

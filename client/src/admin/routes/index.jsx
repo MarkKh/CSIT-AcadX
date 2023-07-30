@@ -12,8 +12,9 @@ const Page404 = lazy(() => import("../pages/404"));
 const Blank = lazy(() => import("../pages/Blank"));
 const insertReport = lazy(() => import("../pages/insertReport"));
 const coop = lazy(() => import("../pages/coop"));
-const insertCoop = lazy(() => import("../pages/insertCoop.jsx"));
-const advisor = lazy(() => import("../pages/advisor.jsx"));
+const insertCoop = lazy(() => import("../pages/insertCoop"));
+const advisor = lazy(() => import("../pages/advisor"));
+const Loan = lazy(() => import("../pages/Loan"));
 
 const routes = [
   {
@@ -68,6 +69,10 @@ const routes = [
     path: "/advisor",
     component: advisor,
   },
+  {
+    path: "/Loan",
+    component: Loan,
+  }
 ];
 
 export default routes;
