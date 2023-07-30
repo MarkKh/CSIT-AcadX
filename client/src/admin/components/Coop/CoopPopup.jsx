@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "@windmill/react-ui";
+import { Button,Input,Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
 
@@ -93,6 +93,24 @@ function Popup({ data, onClose }) {
                             {Object.entries(formData).map(([field, value]) => {
                                 let fieldName = field || field;
 
+                                if (field === 'coop_id') {
+                                    // แสดงเฉพาะข้อมูลเท่านั้น ไม่ให้แก้ไข
+                                    return (
+                                        <tr key={field}>
+                                            <td className="pr-4 font-semibold">{field}</td>
+                                            <td>
+                                                <Input
+                                                    disabled
+                                                    type="text"
+                                                    name={field}
+                                                    value={value}
+                                                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+
                                 if (field === "advisor_id" && advisors[value]) {
                                     const currentAdvisorName = advisors[value];
 
@@ -100,7 +118,7 @@ function Popup({ data, onClose }) {
                                         <tr key={field}>
                                             <td className="pr-4 font-semibold">{fieldName}</td>
                                             <td>
-                                                <select
+                                                <Select
                                                     name={field}
                                                     value={value}
                                                     onChange={handleFieldChange}
@@ -112,7 +130,7 @@ function Popup({ data, onClose }) {
                                                             {name}
                                                         </option>
                                                     ))}
-                                                </select>
+                                                </Select>
                                             </td>
                                         </tr>
                                     );
@@ -122,7 +140,7 @@ function Popup({ data, onClose }) {
                                         <tr key={field}>
                                             <td className="pr-4 font-semibold">{fieldName}</td>
                                             <td>
-                                                <select
+                                                <Select
                                                     name={field}
                                                     value={value}
                                                     onChange={handleFieldChange}
@@ -130,7 +148,7 @@ function Popup({ data, onClose }) {
                                                 >
                                                     <option value={1}>1</option>
                                                     <option value={2}>2</option>
-                                                </select>
+                                                </Select>
                                             </td>
                                         </tr>
                                     );
@@ -139,7 +157,7 @@ function Popup({ data, onClose }) {
                                     <tr key={field}>
                                         <td className="pr-4 font-semibold">{field}</td>
                                         <td>
-                                            <input
+                                            <Input
                                                 type="text"
                                                 name={field}
                                                 value={value}
