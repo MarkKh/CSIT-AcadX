@@ -97,6 +97,26 @@ function loanRouter(app, connection) {
       res.json({ message: "Loan deleted successfully" });
     });
   });
+
+  app.put("/return/:loan_id", (req, res) => {
+    const loanId = req.params.loan_id;
+    const { status, end_date } = req.body; // Assuming the updated status and end_date are sent in the request body
+  
+    const updateData = {
+      status: status,
+      end_date: end_date // Update the end_date here
+    };
+  
+    connection.query("UPDATE loan SET ? WHERE loan_id = ?", [updateData, loanId], (err) => {
+      if (err) {
+        console.error("Error updating status:", err);
+        return res.status(500).json({ error: "An error occurred while updating the status." });
+      }
+  
+      res.json({ message: "Status updated successfully" });
+    });
+});
+
 }
 
 module.exports = loanRouter;
