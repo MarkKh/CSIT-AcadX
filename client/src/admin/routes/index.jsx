@@ -15,6 +15,7 @@ const coop = lazy(() => import("../pages/coop"));
 const insertCoop = lazy(() => import("../pages/insertCoop"));
 const advisor = lazy(() => import("../pages/advisor"));
 const Loan = lazy(() => import("../pages/Loan"));
+const Admin = lazy(() => import("../pages/Admin"));
 
 const routes = [
   {
@@ -72,6 +73,10 @@ const routes = [
   {
     path: "/Loan",
     component: Loan,
+  },
+  {
+    path: "/Admin",
+    component: Admin,
   }
 ];
 

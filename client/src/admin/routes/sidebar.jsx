@@ -36,7 +36,7 @@ const routes = [
     name: "Loan-Return management" 
   },
   {
-    path: "/admin/admin", 
+    path: "/admin/Admin", 
     icon: "MailIcon", 
     name: "Admin management" 
   },
