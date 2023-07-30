@@ -31,7 +31,7 @@ const routes = [
     name: "Advisor" 
   },
   {
-    path: "/admin/loan", 
+    path: "/admin/Loan", 
     icon: "FormsIcon", 
     name: "Loan-Return management" 
   },
