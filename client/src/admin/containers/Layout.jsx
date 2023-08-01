@@ -4,6 +4,7 @@ import routes from '../routes'
 
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Main from '../containers/Main'
 import ThemedSuspense from '../components/ThemedSuspense'
 import { SidebarContext } from '../context/SidebarContext'
@@ -43,6 +44,7 @@ function Layout() {
               <Route component={Page404} />
             </Switch>
           </Suspense>
+          <Footer/>
         </Main>
       </div>
     </div>
