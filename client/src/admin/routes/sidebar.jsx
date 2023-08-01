@@ -16,24 +16,52 @@ const routes = [
     icon: "TablesIcon",
     name: "Report",
   },
-  { path: "/admin/coop", 
-    icon: "CardsIcon", 
-    name: "Cooperative" 
+  {
+    path: "/admin/coop",
+    icon: "CardsIcon",
+    name: "Cooperative"
   },
   {
-    path: "/admin/advisor", 
-    icon: "PeopleIcon", 
-    name: "Advisor" 
+    path: "/admin/advisor",
+    icon: "PeopleIcon",
+    name: "Advisor"
   },
   {
-    path: "/admin/Loan", 
-    icon: "FormsIcon", 
-    name: "Loan-Return management" 
+    path: "/admin/Loan",
+    icon: "FormsIcon",
+    name: "Loan-Return management"
   },
   {
-    path: "/admin/Admin", 
-    icon: "MailIcon", 
-    name: "Admin management" 
+    path: "/admin/Admin",
+    icon: "MailIcon",
+    name: "Admin management"
+  },
+  {
+    icon: "PagesIcon",
+    name: "Admin Guide",
+    routes: [
+      // submenu
+      {
+        path: "/login",
+        name: "Login",
+      },
+      {
+        path: "/create-account",
+        name: "Create account",
+      },
+      {
+        path: "/forgot-password",
+        name: "Forgot password",
+      },
+      {
+        path: "/app/404",
+        name: "404",
+      },
+      {
+        path: "/app/blank",
+        name: "Blank",
+      },
+    ],
   },
 ];
 
