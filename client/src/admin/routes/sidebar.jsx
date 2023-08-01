@@ -12,11 +12,6 @@ const routes = [
     name: "Dashboard", // name that appear in Sidebar
   },
   {
-    path: "/admin/charts",
-    icon: "ChartsIcon",
-    name: "Charts",
-  },
-  {
     path: "/admin/Reports",
     icon: "TablesIcon",
     name: "Report",
@@ -39,33 +34,6 @@ const routes = [
     path: "/admin/Admin", 
     icon: "MailIcon", 
     name: "Admin management" 
-  },
-  {
-    icon: "PagesIcon",
-    name: "Pages",
-    routes: [
-      // submenu
-      {
-        path: "/login",
-        name: "Login",
-      },
-      {
-        path: "/create-account",
-        name: "Create account",
-      },
-      {
-        path: "/forgot-password",
-        name: "Forgot password",
-      },
-      {
-        path: "/app/404",
-        name: "404",
-      },
-      {
-        path: "/app/blank",
-        name: "Blank",
-      },
-    ],
   },
 ];
 

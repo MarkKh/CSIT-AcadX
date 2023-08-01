@@ -13,6 +13,7 @@ import {
   barLegends,
 } from "../utils/demo/chartsData";
 import BarChart from "../utils/demo/reportChart";
+import CoopChart from "../utils/demo/coopChart"
 
 function Charts() {
   return (
@@ -36,6 +37,8 @@ function Charts() {
         </ChartCard> */}
 
         <BarChart />
+
+        <CoopChart />
       </div>
     </>
   );
