@@ -15,7 +15,8 @@ function App() {
       <Router>
         <AccessibleNavigationAnnouncer />
         <Switch>
-          
+          <Redirect exact from="/" to="/login" />
+
           <Route path="/login" component={Login} />
           <Route path="/create-account" component={CreateAccount} />
           <Route path="/forgot-password" component={ForgotPassword} />
@@ -26,7 +27,6 @@ function App() {
 
           {/* Place new routes over this */}
           {/* If you have an index page, you can remove this Redirect */}
-          <Redirect exact from="/" to="/login" />
         </Switch>
       </Router>
     </>
