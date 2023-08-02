@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import ChartCard from '../../components/Chart/ChartCard';
 import { Select } from "@windmill/react-ui";
+import {getAllCoop} from '../../../utils/routh'
 
 const CoopChart = () => {
     const [chartData, setChartData] = useState(null);
@@ -10,7 +11,7 @@ const CoopChart = () => {
 
     useEffect(() => {
         // Fetch data from the API
-        fetch('http://localhost:3000/cooperatives')
+        fetch(getAllCoop)
             .then(response => response.json())
             .then(data => {
                 setChartData(data);

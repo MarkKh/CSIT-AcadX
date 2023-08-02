@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
 import {
-    Table,
-    TableHeader,
-    TableCell,
-    TableBody,
-    TableRow,
-    TableFooter,
-    TableContainer,
     Badge,
-    Button,
-    Pagination,
-    Input,
-    Label,
 } from "@windmill/react-ui";
-import { EditIcon, TrashIcon } from "../icons";
 import Swal from 'sweetalert2'
 import dayjs from 'dayjs';
 
@@ -26,6 +13,8 @@ import LoanTable from "../components/Laon/LoanTable"
 import LoanFilter from "../components/Laon/LoanFilter"
 import LoanSearch from "../components/Laon/LoanSearch"
 import LoanExcel from "../components/Laon/LoanDataToExcel"
+
+import { getAllLoan, getAllReport, delLoan, loanReport, loanReturn } from "../../utils/routh"
 
 function Loan() {
     const resultsPerPage = 10;
@@ -39,8 +28,8 @@ function Loan() {
     const fetchData = async () => {
         try {
             const [loanRes, reportRes] = await Promise.all([
-                axios.get("http://localhost:3000/loans"),
-                axios.get("http://localhost:3000/reports")
+                axios.get(getAllLoan),
+                axios.get(getAllReport)
             ])
             setResponse(loanRes.data)
 
@@ -124,8 +113,8 @@ function Loan() {
 
         if (shouldDelete.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/loan/${loan_id}`);
-                await axios.put(`http://localhost:3000/loanReport/${rep_code}`, { status: "มีให้ยืม", end_date: dayjs().format('YYYY-MM-DD') });
+                await axios.delete(`${delLoan}${loan_id}`);
+                await axios.put(`${loanReport}${rep_code}`, { status: "มีให้ยืม", end_date: dayjs().format('YYYY-MM-DD') });
                 fetchData();
                 Swal.fire(
                     'Deleted!',
@@ -172,8 +161,8 @@ function Loan() {
 
                 if (result.isConfirmed) {
                     try {
-                        await axios.put(`http://localhost:3000/return/${loan_id}`, { status: "InActive", end_date: new Date().toISOString().slice(0, 10) });
-                        await axios.put(`http://localhost:3000/loanReport/${rep_code}`, { status: "มีให้ยืม" });
+                        await axios.put(`${loanReturn}${loan_id}`, { status: "InActive", end_date: new Date().toISOString().slice(0, 10) });
+                        await axios.put(`${loanReport}${rep_code}`, { status: "มีให้ยืม" });
                         Swal.fire('Returned!', '', 'success');
                         fetchData();
                     } catch (error) {

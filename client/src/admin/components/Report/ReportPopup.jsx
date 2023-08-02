@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Table, TableContainer, Input, Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
+import { updateReport, getAllAdvisor, getRepType } from '../../../utils/routh'
 
 function Popup({ data, onClose }) {
   const [formData, setFormData] = useState(data);
@@ -14,8 +15,8 @@ function Popup({ data, onClose }) {
     const fetchData = async () => {
       try {
         const [advisorsResponse, reportTypesResponse] = await Promise.all([
-          axios.get("http://localhost:3000/advisors"),
-          axios.get("http://localhost:3000/reporttypes")
+          axios.get(getAllAdvisor),
+          axios.get(getRepType)
         ]);
 
         const advisorsMap = {};
@@ -70,7 +71,7 @@ function Popup({ data, onClose }) {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/report/${data.rep_code}`, formData);
+      await axios.put(`${updateReport}${data.rep_code}`, formData);
       onClose();
       Swal.fire(
         'Update successfully',

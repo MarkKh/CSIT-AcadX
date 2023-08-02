@@ -18,6 +18,7 @@ import {
   DropdownItem,
   WindmillContext,
 } from "@windmill/react-ui";
+import jwt from 'jsonwebtoken';
 
 function Header() {
   const { mode, toggleMode } = useContext(WindmillContext);
@@ -41,6 +42,21 @@ function Header() {
     window.location.href = '/login';
   };
 
+  function decodeToken(token) {
+    try {
+      const decodedToken = jwt.decode(token);
+      return decodedToken;
+    } catch (err) {
+      console.error('Error decoding token:', err.message);
+      return null;
+    }
+  }
+
+  // Decode the token and get the username
+  const token = localStorage.getItem('token');
+  const decodedToken = decodeToken(token);
+  const username = decodedToken ? decodedToken.username : '';
+
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
       <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
@@ -54,7 +70,7 @@ function Header() {
         </button>
         {/* <!-- Search input --> */}
         <div className="flex justify-center flex-1 lg:mr-32">
-          
+
         </div>
         <ul className="flex items-center flex-shrink-0 space-x-6">
           {/* <!-- Theme toggler --> */}
@@ -71,7 +87,6 @@ function Header() {
               )}
             </button>
           </li>
-          
           {/* <!-- Profile menu --> */}
           <li className="relative">
             <button
@@ -92,6 +107,10 @@ function Header() {
               isOpen={isProfileMenuOpen}
               onClose={() => setIsProfileMenuOpen(false)}
             >
+              <DropdownItem>
+                <OutlinePersonIcon className="w-4 h-4 mr-3" aria-hidden="true" />
+                <span>{username}</span>
+              </DropdownItem>
               <DropdownItem>
                 <OutlineLogoutIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                 <span onClick={handleLogout}>Log out</span>

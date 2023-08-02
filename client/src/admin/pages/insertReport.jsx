@@ -5,11 +5,11 @@ import SectionTitle from '../components/Typography/SectionTitle';
 import Swal from 'sweetalert2'
 import CSVUploader from "../components/Report/CSVUploader";
 import ReportForm from "../components/Report/ReportForm";
+import { CreateReport, getAllAdvisor } from '../../utils/routh'
 
 function Forms() {
 
   const [advisors, setAdvisors] = useState([]);
-  //const [selectedAdvisor, setSelectedAdvisor] = useState("");
   const [reportData, setReportData] = useState({
     rep_code: '',
     title: '',
@@ -37,7 +37,7 @@ function Forms() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:3000/reports", {
+    fetch(CreateReport, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -62,7 +62,7 @@ function Forms() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/advisors")
+    fetch(getAllAdvisor)
       .then((response) => response.json())
       .then((data) => {
         setAdvisors(data);
@@ -79,11 +79,11 @@ function Forms() {
       <SectionTitle>Add Report Data By row</SectionTitle>
 
       <ReportForm
-          reportData={reportData}
-          advisors={advisors}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
-        />
+        reportData={reportData}
+        advisors={advisors}
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+      />
 
       <CSVUploader />
     </>

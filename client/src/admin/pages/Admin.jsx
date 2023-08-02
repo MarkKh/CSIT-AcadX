@@ -8,6 +8,7 @@ import { EditIcon, TrashIcon } from "../icons";
 import Popup from '../components/Admin/AdminPopup';
 import AdminTable from "../components/Admin/AdminTable";
 import AdminForm from "../components/Admin/AdminForm";
+import { GetAllAdminApi, delAdminApi, createAdminApi } from '../../utils/routh'
 
 function Admin() {
     const [response, setResponse] = useState([]);
@@ -17,7 +18,7 @@ function Admin() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/admins");
+            const response = await axios.get(GetAllAdminApi);
             setResponse(response.data); // Update the response state with the actual data received from the API
             setDataAdmin(response.data); // Update the dataAdmin state with the actual data received from the API
         } catch (error) {
@@ -42,7 +43,7 @@ function Admin() {
 
         if (shouldDelete.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/admin/${adminID}`);
+                await axios.delete(`${delAdminApi}${adminID}`);
                 fetchData();
                 Swal.fire(
                     'Deleted!',
@@ -78,7 +79,7 @@ function Admin() {
             name: formData.name,
         };
 
-        fetch("http://localhost:3000/admins", {
+        fetch(createAdminApi, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

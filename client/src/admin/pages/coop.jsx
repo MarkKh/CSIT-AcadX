@@ -11,6 +11,7 @@ import CoopFilter from '../components/Coop/CoopFilter';
 import CoopSearch from '../components/Coop/CoopSearch';
 import CoopTable from '../components/Coop/CoopTable';
 import CoopDataToExcel from '../components/Coop/CoopDataToExcel'
+import { getAllCoop, getAllAdvisor, delCoop } from '../../utils/routh'
 
 function Coop() {
   const [coop, setCoop] = useState([]);
@@ -25,8 +26,8 @@ function Coop() {
   const fetchData = async () => {
     try {
       const [coopResponse, advisorsResponse] = await Promise.all([
-        axios.get("http://localhost:3000/cooperatives"),
-        axios.get("http://localhost:3000/advisors"),
+        axios.get(getAllCoop),
+        axios.get(getAllAdvisor),
       ])
 
       setResponse(coopResponse.data);
@@ -59,7 +60,7 @@ function Coop() {
 
     if (shouldDelete.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:3000/cooperative/${coopId}`);
+        await axios.delete(`${delCoop}${coopId}`);
         fetchData();
         Swal.fire(
           'Deleted!',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import {AuthApi} from '../../utils/routh'
 
 function AuthChecker({ children }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +14,7 @@ function AuthChecker({ children }) {
                 const token = localStorage.getItem('token');
                 if (token) {
                     // Send a request to the backend API to check authentication
-                    const response = await axios.post('http://localhost:3000/auth', null, {
+                    const response = await axios.post(AuthApi, null, {
                         headers: { Authorization: `Bearer ${token}` },
                     });
 

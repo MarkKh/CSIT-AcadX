@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import ChartCard from '../../components/Chart/ChartCard'
+import { reportCount } from '../../../utils/routh'
 
 const BarChart = () => {
     const [chartData, setChartData] = useState(null);
 
     useEffect(() => {
         // Fetch data from the API
-        fetch('http://localhost:3000/reports/count')
+        fetch(reportCount)
             .then(response => response.json())
             .then(data => {
                 // Extracting labels and datasets from the data

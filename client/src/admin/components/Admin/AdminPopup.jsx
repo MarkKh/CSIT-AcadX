@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Input } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
+import {GetAdminApi} from '../../../utils/routh'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
@@ -18,7 +19,7 @@ function Popup({ data, onClose }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/admin/${data.admin_id}`, formData);
+            await axios.put(`${GetAdminApi}${data.admin_id}`, formData);
             onClose();
             Swal.fire(
                 'Update successfully',
@@ -69,34 +70,34 @@ function Popup({ data, onClose }) {
                 <div className="text-sm">
                     <table className="w-full">
                         <tbody>
-                        {Object.entries(formData).map(([field, value]) => {
-    if (field !== "admin_id") {
-        return (
-            <tr key={field}>
-                <td className="pr-4 font-semibold">{field}</td>
-                <td>
-                    {field === "password" ? (
-                        <input
-                            type="password"
-                            name={field}
-                            value={value}
-                            onChange={handleFieldChange}
-                            className="border border-gray-300 rounded px-2 py-1 w-full"
-                        />
-                    ) : (
-                        <input
-                            type="text"
-                            name={field}
-                            value={value}
-                            onChange={handleFieldChange}
-                            className="border border-gray-300 rounded px-2 py-1 w-full"
-                        />
-                    )}
-                </td>
-            </tr>
-        );
-    }
-})}
+                            {Object.entries(formData).map(([field, value]) => {
+                                if (field !== "admin_id") {
+                                    return (
+                                        <tr key={field}>
+                                            <td className="pr-4 font-semibold">{field}</td>
+                                            <td>
+                                                {field === "password" ? (
+                                                    <Input
+                                                        disabled
+                                                        type="password"
+                                                        name={field}
+                                                        value={value}
+                                                        className="border border-gray-300 rounded px-2 py-1 w-full"
+                                                    />
+                                                ) : (
+                                                    <Input
+                                                        type="text"
+                                                        name={field}
+                                                        value={value}
+                                                        onChange={handleFieldChange}
+                                                        className="border border-gray-300 rounded px-2 py-1 w-full"
+                                                    />
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                            })}
 
 
 

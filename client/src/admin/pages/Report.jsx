@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
 import {
-  Button,
-  Input,
   Badge
 } from "@windmill/react-ui";
 import Swal from 'sweetalert2'
@@ -14,9 +11,10 @@ import Popup from "../components/Report/ReportPopup";
 import ReportLoan from "../components/Report/ReportLoan"
 import ReportTable from "../components/Report/ReportTable";
 import ReportFilter from "../components/Report/ReportFilter";
-import CSVUploader from "../components/Report/CSVUploader";
 import ReportSearch from "../components/Report/ReportSearch"
 import ReportExcel from "../components/Report/ReportDataToExcel";
+
+import { getAllReport, getAllAdvisor, getRepType, delReport } from '../../utils/routh'
 
 function Reports() {
   const [report, setReport] = useState(1);
@@ -31,9 +29,9 @@ function Reports() {
   const fetchData = async () => {
     try {
       const [reportsResponse, advisorsResponse, reportTypesResponse] = await Promise.all([
-        axios.get("http://localhost:3000/reports"),
-        axios.get("http://localhost:3000/advisors"),
-        axios.get("http://localhost:3000/reporttypes")
+        axios.get(getAllReport),
+        axios.get(getAllAdvisor),
+        axios.get(getRepType)
       ]);
 
       setResponse(reportsResponse.data);
@@ -134,7 +132,7 @@ function Reports() {
 
     if (shouldDelete.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:3000/report/${repCode}`);
+        await axios.delete(`${delReport}${repCode}`);
         fetchData();
         Swal.fire(
           'Deleted!',

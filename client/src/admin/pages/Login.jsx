@@ -4,9 +4,9 @@ import axios from 'axios'; // Make sure to install axios using "npm install axio
 
 import ImageLight from '../assets/img/login-office.jpeg';
 import ImageDark from '../assets/img/login-office-dark.jpeg';
-import { GithubIcon, TwitterIcon } from '../icons';
 import { Label, Input, Button } from '@windmill/react-ui';
 import Swal from 'sweetalert2';
+import { LoginApi } from "../../utils/routh"
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -18,7 +18,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/login', { username, password });
+      const response = await axios.post(LoginApi, { username, password });
       const { message, token } = response.data;
       if (message === 'Login successful') {
         // Save the token to localStorage or cookies for future API calls

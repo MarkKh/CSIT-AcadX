@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom'; // Import the Link component
-import CTA from '../components/CTA';
 import PageTitle from '../components/Typography/PageTitle';
 import SectionTitle from '../components/Typography/SectionTitle';
-import { Input, Label, Select, Textarea, Button } from '@windmill/react-ui';
-import provinceData from '../components/utils/province.json'
 import Swal from 'sweetalert2'
 import CoopForm from "../components/Coop/CoopForm";
 import CSVUploader from "../components/Coop/CoopCSVUploader"
+import { createCoop, getAllAdvisor } from "../../utils/routh"
 
 function Forms() {
     const [advisors, setAdvisors] = useState([]);
@@ -33,7 +30,7 @@ function Forms() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch("http://localhost:3000/cooperatives", {
+        fetch(createCoop, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -58,7 +55,7 @@ function Forms() {
     };
 
     useEffect(() => {
-        fetch("http://localhost:3000/advisors")
+        fetch(getAllAdvisor)
             .then((response) => response.json())
             .then((data) => {
                 setAdvisors(data);
