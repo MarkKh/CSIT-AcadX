@@ -32,7 +32,7 @@ export const getReport = `${port}/report/`;
 export const CreateReport = `${port}/reports`;
 export const updateReport = `${port}/report/`;
 export const delReport = `${port}/report/`;
-export const uploadReport = `${port}/api/upload`;
+export const uploadReport = `${port}/report/upload`;
 export const loanReport = `${port}/loanReport/`;
 export const reportCount = `${port}/reports/count`;
 
