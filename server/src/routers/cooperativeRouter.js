@@ -1,7 +1,6 @@
 const fileUpload = require("express-fileupload");
 
 function cooperativeRouter(app, connection) {
-  app.use(fileUpload());
   // Read all records
   app.get("/cooperatives", (req, res) => {
     connection.query("SELECT * FROM cooperative", (err, results) => {
