@@ -99,45 +99,24 @@ function adminRouter(app, connection) {
   // Update an admin record
   app.put("/admin/:admin_id", (req, res) => {
     const adminID = req.params.admin_id;
-    const { username, password, name } = req.body;
-
-    // If the password field is present in the request body, hash the new password
-    if (password) {
-      bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+    const { username, name } = req.body;
+  
+    // Create an object with the fields to be updated
+    const admin = {
+      username,
+      name,
+    };
+  
+    connection.query(
+      "UPDATE admin SET ? WHERE admin_id = ?",
+      [admin, adminID],
+      (err) => {
         if (err) throw err;
-
-        const admin = {
-          username,
-          password: hashedPassword, // Use the hashed password
-          name,
-        };
-
-        connection.query(
-          "UPDATE admin SET ? WHERE admin_id = ?",
-          [admin, adminID],
-          (err) => {
-            if (err) throw err;
-            res.json({ message: "Admin updated successfully" });
-          }
-        );
-      });
-    } else {
-      // If the password field is not present in the request body, update other fields only
-      const admin = {
-        username,
-        name,
-      };
-
-      connection.query(
-        "UPDATE admin SET ? WHERE admin_id = ?",
-        [admin, adminID],
-        (err) => {
-          if (err) throw err;
-          res.json({ message: "Admin updated successfully" });
-        }
-      );
-    }
+        res.json({ message: "Admin updated successfully" });
+      }
+    );
   });
+  
 
   // ...
 

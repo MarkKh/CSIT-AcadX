@@ -1,7 +1,6 @@
 const fileUpload = require("express-fileupload");
 
 function reportsRouter(app, connection) {
-  app.use(fileUpload());
   // Read all records
   app.get("/reports", (req, res) => {
     connection.query("SELECT * FROM reports", (err, results) => {
@@ -129,7 +128,7 @@ function reportsRouter(app, connection) {
     );
   });
 
-  app.post("/api/upload", (req, res) => {
+  app.post("/report/upload", (req, res) => {
     if (!req.files || !req.files.file) {
       return res.status(400).json({ error: "No CSV file uploaded" });
     }

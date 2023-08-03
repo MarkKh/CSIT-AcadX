@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Input } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
+import {UpdateAdvisor} from '../../../utils/routh'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
@@ -18,7 +19,7 @@ function Popup({ data, onClose }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/advisor/${data.advisor_id}`, formData);
+            await axios.put(`${UpdateAdvisor}${data.advisor_id}`, formData);
             onClose();
             Swal.fire(
                 'Update successfully',

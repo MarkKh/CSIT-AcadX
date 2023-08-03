@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Table, TableContainer, Input, Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
+import { createLoan, loanReport } from '../../../utils/routh'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState({
@@ -52,10 +53,10 @@ function Popup({ data, onClose }) {
 
         try {
             // Step 1: ส่งค่าข้อมูลไปเพื่อเพิ่มรายการยืมในตาราง "loan"
-            await axios.post("http://localhost:3000/loans", formData);
+            await axios.post(createLoan, formData);
 
             // Step 2: อัปเดตสถานะในตาราง "report"
-            await axios.put(`http://localhost:3000/loanReport/${data.rep_code}`, { status: "ถูกยืม" });
+            await axios.put(`${loanReport}${data.rep_code}`, { status: "ถูกยืม" });
 
             onClose();
             Swal.fire("Loan Saved!", "The loan data has been saved successfully.", "success");

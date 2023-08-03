@@ -4,6 +4,7 @@ import { Button, Input, Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
 import dayjs from 'dayjs';
+import { updateLoan } from '../../../utils/routh'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
@@ -19,7 +20,7 @@ function Popup({ data, onClose }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/loan/${data.loan_id}`, formData);
+            await axios.put(`${updateLoan}${data.loan_id}`, formData);
             onClose();
             Swal.fire(
                 'Update successfully',
@@ -84,20 +85,20 @@ function Popup({ data, onClose }) {
                         <tbody>
                             {Object.entries(formData).map(([field, value]) => {
                                 if (field === 'loan_id' || field === 'rep_code' || field === 'start_date' || field === 'end_date') {
-                                    if (field === 'start_date' || field === 'end_date'){
-                                        return(
+                                    if (field === 'start_date' || field === 'end_date') {
+                                        return (
                                             <tr key={field}>
-                                            <td className="pr-4 font-semibold">{field}</td>
-                                            <td>
-                                                <Input
-                                                    disabled
-                                                    type="text"
-                                                    name={field}
-                                                    value={dayjs(value).format('DD MMM YYYY')}
-                                                    className="border border-gray-300 rounded px-2 py-1 w-full"
-                                                />
-                                            </td>
-                                        </tr>
+                                                <td className="pr-4 font-semibold">{field}</td>
+                                                <td>
+                                                    <Input
+                                                        disabled
+                                                        type="text"
+                                                        name={field}
+                                                        value={dayjs(value).format('DD MMM YYYY')}
+                                                        className="border border-gray-300 rounded px-2 py-1 w-full"
+                                                    />
+                                                </td>
+                                            </tr>
                                         )
                                     }
                                     return (
@@ -135,7 +136,7 @@ function Popup({ data, onClose }) {
                                             </td>
                                         </tr>
                                     );
-                                }else if (field === 'status') {
+                                } else if (field === 'status') {
                                     // แสดงฟิลด์ major และ status เป็นตัวเลือกในการแก้ไข
                                     return (
                                         <tr key={field}>

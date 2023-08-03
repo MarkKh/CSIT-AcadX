@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom'; // Import the Link component
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
 import {
-    Table,
-    TableHeader,
-    TableCell,
-    TableBody,
-    TableRow,
-    TableFooter,
-    TableContainer,
-    Badge,
-    Button,
-    Pagination,
-    Input,
-    Label,
+    Badge
 } from "@windmill/react-ui";
-import { EditIcon, TrashIcon } from "../icons";
 import Popup from "../components/Advisor/AdvisorPopup";
 import Swal from 'sweetalert2'
 import AdvisorTable from "../components/Advisor/AdvisorTable";
 import AdvisorSearch from "../components/Advisor/AdvisorSearch";
 import AdvisorForm from "../components/Advisor/AdvisorForm";
 import AdvisorDataToExcel from "../components/Advisor/AdvisorDataToExcel"
+import {getAllAdvisor,delAdvisor,createAdvisor} from "../../utils/routh"
 
 function Advisor() {
     const [advisors, setAdvisors] = useState([]);
@@ -43,7 +31,7 @@ function Advisor() {
 
     const fetchAdvisors = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/advisors');
+            const response = await axios.get(getAllAdvisor);
             const data = response.data.sort((a, b) => a.advisor_id - b.advisor_id);
             setResponse(data);
             setDataAdvisor(data.slice(0, resultsPerPage));
@@ -65,7 +53,7 @@ function Advisor() {
 
         if (shouldDelete.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/advisor/${advisor_id}`);
+                await axios.delete(`${delAdvisor}${advisor_id}`);
                 fetchAdvisors();
                 Swal.fire(
                     'Deleted!',
@@ -118,7 +106,7 @@ function Advisor() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch("http://localhost:3000/advisors", {
+        fetch(createAdvisor, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

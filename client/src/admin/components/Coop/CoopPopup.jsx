@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button,Input,Select } from "@windmill/react-ui";
+import { Button, Input, Select } from "@windmill/react-ui";
 import "../utils/Popup.css";
 import Swal from 'sweetalert2'
+import { getAllAdvisor, updateCoop } from '../../../utils/routh'
 
 function Popup({ data, onClose }) {
     const [formData, setFormData] = useState(data);
@@ -12,7 +13,7 @@ function Popup({ data, onClose }) {
         const fetchData = async () => {
             try {
                 const [advisorsResponse] = await Promise.all([
-                    axios.get("http://localhost:3000/advisors"),
+                    axios.get(getAllAdvisor),
                 ]);
                 const advisorsMap = {};
                 advisorsResponse.data.forEach((advisor) => {
@@ -40,7 +41,7 @@ function Popup({ data, onClose }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/cooperative/${data.coop_id}`, formData);
+            await axios.put(`${updateCoop}${data.coop_id}`, formData);
             onClose();
             Swal.fire(
                 'Update successfully',

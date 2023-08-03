@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import SectionTitle from '../../components/Typography/SectionTitle';
 import { Button, Input } from "@windmill/react-ui";
+import { uploadCoop } from '../../../utils/routh'
 
 function CSVUploader({ fetchData }) {
   const [file, setFile] = useState(null);
@@ -18,7 +19,7 @@ function CSVUploader({ fetchData }) {
     const formData = new FormData();
     formData.append("file", file);
 
-    axios.post('http://localhost:3000/coop/upload', formData)
+    axios.post(uploadCoop, formData)
       .then((response) => {
         console.log('Data uploaded successfully');
         Swal.fire({

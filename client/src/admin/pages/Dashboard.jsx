@@ -1,37 +1,14 @@
 import React, { useState, useEffect } from 'react'
-
 import CTA from '../components/CTA'
 import InfoCard from '../components/Cards/InfoCard'
-import ChartCard from '../components/Chart/ChartCard'
-import { Doughnut, Line } from 'react-chartjs-2'
-import ChartLegend from '../components/Chart/ChartLegend'
 import PageTitle from '../components/Typography/PageTitle'
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from '../icons'
+import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon, TablesIcon, CardsIcon, FormsIcon } from '../icons'
 import RoundIcon from '../components/RoundIcon'
-import response from '../utils/demo/tableData'
-import {
-  TableBody,
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  TableFooter,
-  Avatar,
-  Badge,
-  Pagination,
-  Alert
-} from '@windmill/react-ui'
-
-import {
-  doughnutOptions,
-  lineOptions,
-  doughnutLegends,
-  lineLegends,
-} from '../utils/demo/chartsData'
 
 import BarChart from "../utils/demo/reportChart";
 import CoopChart from "../utils/demo/coopChart"
+
+import { getAllCoop, getAllLoan, getAllReport } from '../../utils/routh'
 
 function Dashboard() {
 
@@ -42,15 +19,15 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const coopResponse = await fetch('http://localhost:3000/cooperatives');
+        const coopResponse = await fetch(getAllCoop);
         const coopData = await coopResponse.json();
         setCoopCount(coopData.length);
 
-        const loanResponse = await fetch('http://localhost:3000/loans');
+        const loanResponse = await fetch(getAllLoan);
         const loanData = await loanResponse.json();
         setLoanCount(loanData.length)
 
-        const reportsResponse = await fetch('http://localhost:3000/reports');
+        const reportsResponse = await fetch(getAllReport);
         const reportsData = await reportsResponse.json();
         const counts = reportsData.reduce((acc, item) => {
           const repTypeId = item.rep_type_id;
@@ -79,7 +56,7 @@ function Dashboard() {
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
         <InfoCard title="UG Report" value={additionalCounts[1]}>
           <RoundIcon
-            icon={PeopleIcon}
+            icon={TablesIcon}
             iconColorClass="text-orange-500 dark:text-orange-100"
             bgColorClass="bg-orange-100 dark:bg-orange-500"
             className="mr-4"
@@ -97,7 +74,7 @@ function Dashboard() {
 
         <InfoCard title="Cooperative" value={coopCount}>
           <RoundIcon
-            icon={CartIcon}
+            icon={CardsIcon}
             iconColorClass="text-blue-500 dark:text-blue-100"
             bgColorClass="bg-blue-100 dark:bg-blue-500"
             className="mr-4"
@@ -106,7 +83,7 @@ function Dashboard() {
 
         <InfoCard title="Loan Management" value={loanCount}>
           <RoundIcon
-            icon={ChatIcon}
+            icon={FormsIcon}
             iconColorClass="text-teal-500 dark:text-teal-100"
             bgColorClass="bg-teal-100 dark:bg-teal-500"
             className="mr-4"
