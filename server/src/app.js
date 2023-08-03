@@ -2,6 +2,8 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors")
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
+
 
 const dbConfig = require("./config/database");
 const adminRouter = require("./routers/adminRouter")
@@ -15,6 +17,7 @@ const loanRouter = require('./routers/loanRouter')
 const app = express();
 const port = 3000;
 app.use(cors());
+app.use(fileUpload());
 
 // Create a MySQL connection
 const connection = mysql.createConnection(dbConfig);
