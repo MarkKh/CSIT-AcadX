@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { MoonLoader } from 'react-spinners';
 
 function ThemedSuspense() {
   return (
-    <div className="w-full h-screen p-6 text-lg font-medium text-gray-600 dark:text-gray-400 dark:bg-gray-900">
-      Loading...
+    <div className="flex items-center justify-center h-screen">
+      <MoonLoader color="hsla(283, 68%, 55%, 1)" />
     </div>
-  )
+  );
 }
 
-export default ThemedSuspense
+export default ThemedSuspense;

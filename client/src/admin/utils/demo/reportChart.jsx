@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import ChartCard from '../../components/Chart/ChartCard'
 import { reportCount } from '../../../utils/routh'
+import randomColor from 'randomcolor'; 
 
 const BarChart = () => {
     const [chartData, setChartData] = useState(null);
@@ -16,13 +17,13 @@ const BarChart = () => {
                 const datasets = [
                     {
                         label: 'UG',
-                        backgroundColor: '#0694a2',
+                        backgroundColor: randomColor({ luminosity: 'light', format: 'rgb' }),
                         borderWidth: 1,
                         data: data.map(entry => entry.UG),
                     },
                     {
                         label: 'COOP',
-                        backgroundColor: '#7e3af2',
+                        backgroundColor: randomColor({ luminosity: 'light', format: 'rgb' }),
                         borderWidth: 1,
                         data: data.map(entry => entry.COOP),
                     },

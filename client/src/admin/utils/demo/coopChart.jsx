@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import ChartCard from '../../components/Chart/ChartCard';
 import { Select } from "@windmill/react-ui";
-import {getAllCoop} from '../../../utils/routh'
+import { getAllCoop } from '../../../utils/routh'
+import randomColor from 'randomcolor'; // Import the randomcolor library
 
 const CoopChart = () => {
     const [chartData, setChartData] = useState(null);
@@ -71,7 +72,12 @@ const CoopChart = () => {
                     provinceCounts?.[topProvinces[2]] || 0,
                     restCount,
                 ],
-                backgroundColor: ['#0694a2', '#7e3af2', '#ffa500', '#ff0000'],
+                backgroundColor: [
+                    randomColor({ luminosity: 'light', format: 'rgb' }),
+                    randomColor({ luminosity: 'light', format: 'rgb' }),
+                    randomColor({ luminosity: 'light', format: 'rgb' }),
+                    randomColor({ luminosity: 'light', format: 'rgb' }),
+                ],
                 borderWidth: 1,
             },
         ],
