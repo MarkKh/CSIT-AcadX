@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import {AuthApi} from '../../utils/routh'
+import { AuthApi } from '../../utils/routh'
+import { MoonLoader } from 'react-spinners';
 
 function AuthChecker({ children }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +45,9 @@ function AuthChecker({ children }) {
 
     if (isLoading) {
         // You can show a loading spinner or any other loading indicator here
-        return <div>Loading...</div>;
+        return <div className="flex items-center justify-center h-screen">
+            <MoonLoader color="hsla(283, 68%, 55%, 1)" />
+        </div>;
     }
 
     if (isAuthenticated) {

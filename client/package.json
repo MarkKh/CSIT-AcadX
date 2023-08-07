@@ -30,6 +30,7 @@
     "file-saver": "^2.0.5",
     "jsonwebtoken": "^9.0.1",
     "mysql": "^2.18.1",
+    "randomcolor": "^0.6.2",
     "react": "^16.13.1",
     "react-chartjs-2": "2.9.0",
     "react-csv-reader": "^4.0.0",
@@ -37,6 +38,7 @@
     "react-focus-lock": "2.4.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
+    "react-spinners": "^0.13.8",
     "react-transition-group": "4.4.1",
     "sweetalert2": "^11.7.20",
     "xlsx": "^0.18.5"

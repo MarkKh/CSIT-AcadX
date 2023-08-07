@@ -7,6 +7,7 @@ import RoundIcon from '../components/RoundIcon'
 
 import BarChart from "../utils/demo/reportChart";
 import CoopChart from "../utils/demo/coopChart"
+import ReportBarGraph from '../utils/demo/reportBar';
 
 import { getAllCoop, getAllLoan, getAllReport } from '../../utils/routh'
 
@@ -97,6 +98,11 @@ function Dashboard() {
         <BarChart />
         <CoopChart />
       </div>
+
+      <div className="grid gap-6 mb-8">
+        <ReportBarGraph />
+      </div>
+
     </>
   )
 }

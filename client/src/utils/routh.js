@@ -35,6 +35,8 @@ export const delReport = `${port}/report/`;
 export const uploadReport = `${port}/report/upload`;
 export const loanReport = `${port}/loanReport/`;
 export const reportCount = `${port}/reports/count`;
+export const reportCount2 = `${port}/reports/count2`;
+
 
 
 //loan
