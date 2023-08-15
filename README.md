@@ -18,7 +18,7 @@ CSIT AcadX is built using cutting-edge technologies to ensure a robust and respo
 
 To run CSIT AcadX locally, follow these steps:
 
-1. Clone the repository: `git clone [https://github.com/MarkKh/csit-acadx.git](https://github.com/MarkKh/CSIT-AcadX.git)`
+1. Clone the repository: `git clone https://github.com/MarkKh/CSIT-AcadX.git`
 2. Navigate to the project directory: `cd CSIT-AcadX`
 
 ### Setting Up the Server
