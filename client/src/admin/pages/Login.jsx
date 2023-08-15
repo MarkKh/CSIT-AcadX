@@ -4,6 +4,7 @@ import axios from 'axios'; // Make sure to install axios using "npm install axio
 
 import ImageLight from '../assets/img/login-office.jpeg';
 import ImageDark from '../assets/img/login-office-dark.jpeg';
+import ImageLogin from '../assets/img/login-img.jpg'
 import { Label, Input, Button } from '@windmill/react-ui';
 import Swal from 'sweetalert2';
 import { LoginApi } from "../../utils/routh"
@@ -58,13 +59,13 @@ function Login() {
             <img
               aria-hidden="true"
               className="object-cover w-full h-full dark:hidden"
-              src={ImageLight}
+              src={ImageLogin}
               alt="Office"
             />
             <img
               aria-hidden="true"
               className="hidden object-cover w-full h-full dark:block"
-              src={ImageDark}
+              src={ImageLogin}
               alt="Office"
             />
           </div>
@@ -77,7 +78,7 @@ function Login() {
                   <Input
                     className="mt-1"
                     type="text"
-                    placeholder="john@doe.com"
+                    placeholder="admin@csit.com"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -100,23 +101,6 @@ function Login() {
                   Log in
                 </Button>
               </form>
-
-              <p className="mt-4">
-                <Link
-                  className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  to="/forgot-password"
-                >
-                  Forgot your password?
-                </Link>
-              </p>
-              <p className="mt-1">
-                <Link
-                  className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  to="/create-account"
-                >
-                  Create account
-                </Link>
-              </p>
             </div>
           </main>
         </div>
