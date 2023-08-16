@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import './assets/css/tailwind.output.css'
 import App from './App'
+import App2 from './App2'
 import { SidebarProvider } from './admin/context/SidebarContext'
 import ThemedSuspense from './admin/components/ThemedSuspense'
 import { Windmill } from '@windmill/react-ui'
@@ -17,7 +18,9 @@ ReactDOM.render(
     <Suspense fallback={<ThemedSuspense />}>
       <Windmill usePreferences>
         <App />
+        
       </Windmill>
+      <App2 />
     </Suspense>
   </SidebarProvider>,
   document.getElementById('root')

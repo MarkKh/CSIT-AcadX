@@ -12,10 +12,9 @@ function App() {
     <Router>
       <AccessibleNavigationAnnouncer />
       <Switch>
-        <Route path="/login" component={Login} />
-        <AuthChecker>
-          <Route path="/admin" component={Layout} />
-        </AuthChecker>
+        <Route path="/" component={LayoutGuest} />
+        <Redirect from="/" to="/index" />
+
       </Switch>
 
     </Router>
