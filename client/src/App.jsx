@@ -13,11 +13,21 @@ function App() {
       <AccessibleNavigationAnnouncer />
       <Switch>
         <Route path="/login" component={Login} />
-        <AuthChecker>
-          <Route path="/admin" component={Layout} />
-        </AuthChecker>
-      </Switch>
 
+        {/* Render LayoutGuest component for non-admin routes */}
+        <Route path="/:path(admin)?">
+          {({ match }) => {
+            if (match && match.params.path === 'admin') {
+              return (
+                <AuthChecker>
+                  <Layout />
+                </AuthChecker>
+              );
+            }
+            return <LayoutGuest />;
+          }}
+        </Route>
+      </Switch>
     </Router>
   );
 }

@@ -13,9 +13,9 @@ const HeroSection = () => {
 
                 <div><Typed
                     className='text-lg md:text-xl lg:text-2xl font-extrabold leading-none tracking-tight text-purple-400 dark:text-purple-300'
-                    strings={['Information Technology', 'Computer Science', 'AcadX']}
-                    typeSpeed={200}
-                    backSpeed={250}
+                    strings={['Information Technology', 'Computer Science', 'AcadX', 'CSIT', 'Academic', 'COOP']}
+                    typeSpeed={50}
+                    backSpeed={50}
                     loop
                 />
                 </div>
