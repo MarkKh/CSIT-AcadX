@@ -3,26 +3,32 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import AccessibleNavigationAnnouncer from './admin/components/AccessibleNavigationAnnouncer';
 import AuthChecker from '../src/admin/components/AuthChecker';
 
+const LayoutGuest = lazy(() => import('./guest/containers/Layout'));
 const Layout = lazy(() => import('./admin/containers/Layout'));
 const Login = lazy(() => import('./admin/pages/Login'));
 
 function App() {
   return (
-    <>
-      <Router>          
-        <AccessibleNavigationAnnouncer />
-        <Switch>
-          <Redirect exact from="/" to="/login" />
+    <Router>
+      <AccessibleNavigationAnnouncer />
+      <Switch>
+        <Route path="/login" component={Login} />
 
-          <Route path="/login" component={Login} />
-          
-          <AuthChecker>
-            <Route path="/admin" component={Layout} />
-          </AuthChecker>
-
-        </Switch>
-      </Router>
-    </>
+        {/* Render LayoutGuest component for non-admin routes */}
+        <Route path="/:path(admin)?">
+          {({ match }) => {
+            if (match && match.params.path === 'admin') {
+              return (
+                <AuthChecker>
+                  <Layout />
+                </AuthChecker>
+              );
+            }
+            return <LayoutGuest />;
+          }}
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

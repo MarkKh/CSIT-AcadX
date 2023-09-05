@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import PageTitle from "../components/Typography/PageTitle";
-import SectionTitle from "../components/Typography/SectionTitle";
 import {
   Badge
 } from "@windmill/react-ui";
 import Swal from 'sweetalert2'
 // component
 import Popup from "../components/Report/ReportPopup";
-import ReportLoan from "../components/Report/ReportLoan"
 import ReportTable from "../components/Report/ReportTable";
 import ReportFilter from "../components/Report/ReportFilter";
 import ReportSearch from "../components/Report/ReportSearch"
-import ReportExcel from "../components/Report/ReportDataToExcel";
+import ReportHero from '../components/Report/ReportHero'
 
 import { getAllReport, getAllAdvisor, getRepType, delReport } from '../../utils/routh'
 
@@ -47,6 +44,7 @@ function Reports() {
         reportTypeMap[report_type.rep_type_id] = report_type.type_name;
       });
       setReportType(reportTypeMap);
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -92,8 +90,7 @@ function Reports() {
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
   }, [report, response, search, selectedFilters]);
-
-  const totalResults = response.length;
+  
 
   const handleSelectFilter = (filterName, value) => {
     setSelectedFilters((prevFilters) => ({
@@ -126,55 +123,9 @@ function Reports() {
     );
   };
 
-  const dataToExcel = response
-    .filter(filterReports)
-    .sort((a, b) => {
-      if (b.year !== a.year) {
-        return b.year - a.year;
-      }
-
-      if (b.rep_type_id !== a.rep_type_id) {
-        return b.rep_type_id === 1 ? -1 : 1;
-      }
-
-      return 0;
-    });
-
-  const handleDelete = async (repCode) => {
-    const shouldDelete = await Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    });
-
-    if (shouldDelete.isConfirmed) {
-      try {
-        await axios.delete(`${delReport}${repCode}`);
-        fetchData();
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        );
-      } catch (error) {
-        Swal.fire(
-          'Error!',
-          'An error occurred while deleting the report.',
-          'error'
-        );
-        console.error("Error:", error);
-      }
-    }
-  };
+  const dataToExcel = response.filter(filterReports)
 
 
-  const onPageChangeReport = (p) => {
-    setReport(p);
-  };
 
   const openPopup = (data) => {
     setPopupData(data);
@@ -187,60 +138,39 @@ function Reports() {
 
   const [loanPopupData, setLoanPopupData] = useState(null);
 
-  const openLoan = (data) => {
-    setLoanPopupData(data);
-  }
-  const closeLoan = () => {
-    setLoanPopupData(null);
-    fetchData();
-  }
 
   return (
     <>
-      <PageTitle>Academic Reports</PageTitle>
+      <div className="container grid px-6 mx-auto">
 
-      {/* CSVUploader */}
-      {/* <CSVUploader fetchData={fetchData} /> */}
+        <ReportHero />
 
-      {/* ReportSearch */}
-      <ReportSearch setSearch={setSearch} />
+        {/* ReportSearch */}
+        <ReportSearch setSearch={setSearch} dataToExcel={dataToExcel} />
 
-      <div className="flex items-center justify-between">
-        <SectionTitle className="mr-2">Filter By</SectionTitle>
-        <div className="flex py-4 justify-end">
-          <Badge type="primary">   Found {dataToExcel.length} item   </Badge>
-        </div>
+
+        {/* ReportFilter */}
+        <ReportFilter
+          selectedFilters={selectedFilters}
+          advisors={advisors}
+          response={response}
+          handleSelectFilter={handleSelectFilter}
+          clearFilters={clearFilters}
+        />
+
+        {/* ReportTable */}
+        <ReportTable
+          dataReports={dataReports}
+          response={response}
+          filterReports={filterReports}
+          advisors={advisors}
+          openPopup={openPopup}
+          setReport={setReport}
+        />
+
+
+        {popupData && <Popup data={popupData} onClose={closePopup} />}
       </div>
-
-      {/* ReportFilter */}
-      <ReportFilter
-        selectedFilters={selectedFilters}
-        advisors={advisors}
-        response={response}
-        handleSelectFilter={handleSelectFilter}
-        clearFilters={clearFilters}
-      />
-
-      {/* ReportTable */}
-      <ReportTable
-        dataReports={dataReports}
-        response={response}
-        filterReports={filterReports}
-        advisors={advisors}
-        handleDelete={handleDelete}
-        openPopup={openPopup}
-        setReport={setReport}
-        openLoan={openLoan}
-      />
-
-      {/* ReportExcel */}
-      <ReportExcel
-        dataToExcel={dataToExcel}
-      />
-
-
-      {popupData && <Popup data={popupData} onClose={closePopup} />}
-      {loanPopupData && <ReportLoan data={loanPopupData} onClose={closeLoan} />}
     </>
   );
 }
