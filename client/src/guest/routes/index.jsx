@@ -14,7 +14,7 @@ const routes = [
         component: Coop
     },
     {
-        path: '/report',
+        path: '/reports',
         component: Report
     }
 ]

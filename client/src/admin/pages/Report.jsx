@@ -80,6 +80,15 @@ function Reports() {
     setDataReports(
       response
         .filter(filterReports)
+        .sort((a, b) => {
+          if (b.year !== a.year) {
+            return b.year - a.year;
+          }
+          if (b.rep_type_id !== a.rep_type_id) {
+            return a.rep_type_id === 1 ? -1 : 1;
+          }
+          return 0;
+        })
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
   }, [report, response, search, selectedFilters]);
@@ -117,7 +126,19 @@ function Reports() {
     );
   };
 
-  const dataToExcel = response.filter(filterReports)
+  const dataToExcel = response
+    .filter(filterReports)
+    .sort((a, b) => {
+      if (b.year !== a.year) {
+        return b.year - a.year;
+      }
+
+      if (b.rep_type_id !== a.rep_type_id) {
+        return b.rep_type_id === 1 ? -1 : 1;
+      }
+
+      return 0;
+    });
 
   const handleDelete = async (repCode) => {
     const shouldDelete = await Swal.fire({
