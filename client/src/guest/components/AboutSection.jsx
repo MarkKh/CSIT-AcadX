@@ -1,4 +1,5 @@
 import React from 'react';
+import abRe from '../assets/ab-re.png'
 
 const HomePage = () => {
     return (
@@ -27,7 +28,7 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className="mx-auto lg:col-span-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
-                        <img className="mx-auto max-w-full h-auto rounded-xl object-cover bg-gray-900 shadow-xl ring-1 ring-gray-400/10" src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png" alt="" />
+                        <img className="mx-auto max-w-full h-auto rounded-xl object-cover bg-gray-900 shadow-xl ring-1 ring-gray-400/10" src={abRe} alt="" />
                     </div>
 
                     <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
