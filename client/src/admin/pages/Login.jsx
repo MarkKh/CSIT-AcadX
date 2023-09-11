@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios'; // Make sure to install axios using "npm install axios"
 
-import ImageLight from '../assets/img/login-office.jpeg';
-import ImageDark from '../assets/img/login-office-dark.jpeg';
 import ImageLogin from '../assets/img/login-img.jpg'
 import { Label, Input, Button } from '@windmill/react-ui';
 import Swal from 'sweetalert2';
