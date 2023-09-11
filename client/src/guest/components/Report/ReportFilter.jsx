@@ -7,32 +7,15 @@ function ReportFilter({ selectedFilters, advisors, response, handleSelectFilter,
       <div className="flex justify-between mb-5">
         <div className="flex flex-wrap space-x-2 items-center">
 
-          <div className="relative flex-1">
+          <div className="relative flex-1 mx-2">
             <Select
               value={selectedFilters.rep_type}
               onChange={(e) => handleSelectFilter("rep_type", e.target.value)}
               className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
+              >
               <option value="">Type</option>
-              <option value="1">Undergraduate</option>
+              <option value="1">UT</option>
               <option value="2">COOP</option>
-            </Select>
-          </div>
-
-          <div className="relative flex-1">
-            <Select
-              value={selectedFilters.advisor}
-              onChange={(e) => handleSelectFilter("advisor", e.target.value)}
-              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-              <option value="">Advisor</option>
-              {Object.values(advisors)
-                .sort((a, b) => a.localeCompare(b)) 
-                .map((advisor, index) => (
-                  <option key={index} value={advisor}>
-                    {advisor}
-                  </option>
-                ))}
             </Select>
           </div>
 
@@ -75,6 +58,23 @@ function ReportFilter({ selectedFilters, advisors, response, handleSelectFilter,
               <option value="">Prominence</option>
               <option value="โดดเด่น">โดดเด่น</option>
               <option value="-">-</option>
+            </Select>
+          </div>
+
+          <div className="relative flex-1">
+            <Select
+              value={selectedFilters.advisor}
+              onChange={(e) => handleSelectFilter("advisor", e.target.value)}
+              className="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="">Advisor</option>
+              {Object.values(advisors)
+                .sort((a, b) => a.localeCompare(b)) 
+                .map((advisor, index) => (
+                  <option key={index} value={advisor}>
+                    {advisor}
+                  </option>
+                ))}
             </Select>
           </div>
 

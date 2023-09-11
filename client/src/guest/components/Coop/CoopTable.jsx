@@ -44,12 +44,12 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
             <Table>
                 <TableHeader>
                     <tr>
-                        <TableCell className="w-1/8">ID</TableCell>
+                        {/*<TableCell className="w-1/8">ID</TableCell>*/}
+                        <TableCell className="w-1/8">Year</TableCell>
                         <TableCell className="w-1/8">Student Information</TableCell>
                         <TableCell className="w-1/8">Company</TableCell>
                         <TableCell className="w-1/8">Advisor ID</TableCell>
                         <TableCell className="w-1/8">Semester</TableCell>
-                        <TableCell className="w-1/8">Year</TableCell>
                         {/*<TableCell className="w-1/8">Actions</TableCell>*/}
                     </tr>
                 </TableHeader>
@@ -61,9 +61,14 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                             );
                         }).map((coop, i) => (
                             <TableRow key={i}>
-                                <TableCell>
+                                {/*<TableCell>
                                     <div className="flex items-center text-sm">
                                         {coop.coop_id}
+                                    </div>
+                        </TableCell>*/}
+                                <TableCell>
+                                    <div className="flex items-center text-sm">
+                                        {coop.year}
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -112,11 +117,7 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                                         {coop.semester}
                                     </div>
                                 </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center text-sm">
-                                        {coop.year}
-                                    </div>
-                                </TableCell>
+
                                 {/*<TableCell>
                                     <div className="flex items-center space-x-4">
                                         <Button

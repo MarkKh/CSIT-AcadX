@@ -7,7 +7,7 @@ function CoopFilter({ response, advisors, selectedFilters, handleSelectFilter, c
             <div className="flex justify-between mb-5">
                 <div className="flex flex-wrap space-x-2 items-center">
 
-                    <div className="relative flex-1">
+                    <div className="relative flex-1 mx-2">
                         <Select
                             value={selectedFilters.advisor_id}
                             onChange={(e) => handleSelectFilter("advisor_id", e.target.value)}

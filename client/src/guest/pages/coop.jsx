@@ -71,6 +71,9 @@ function Coop() {
         setDataCoop(
             response
                 .filter(filteredCoop)
+                .sort((a,b) => {
+                    return b.year - a.year
+                })
                 .slice((coop - 1) * resultsPerPage, coop * resultsPerPage)
         );
     }, [coop, response, search, selectedFilters]);
