@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "../components/Typography/PageTitle";
-import Guide_Doc from '../assets/pdf/testpdf.pdf'
+import Guide_Doc from '../assets/pdf/ADMIN-Guide.pdf'
 
 function AdminGuide() {
     return (

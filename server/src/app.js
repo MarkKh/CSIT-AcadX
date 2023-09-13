@@ -1,5 +1,5 @@
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors")
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
@@ -15,7 +15,7 @@ const loanRouter = require('./routers/loanRouter')
 
 
 const app = express();
-const port = 3333;
+const port = 25863;
 app.use(cors());
 app.use(fileUpload());
 

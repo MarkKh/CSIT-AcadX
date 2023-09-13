@@ -37,6 +37,7 @@
     "react-dom": "^16.13.1",
     "react-focus-lock": "2.4.0",
     "react-icons": "^4.10.1",
+    "react-pdf": "^7.3.3",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
     "react-spinners": "^0.13.8",
@@ -100,4 +101,5 @@
       "last 1 safari version"
     ]
   }
+  
 }
