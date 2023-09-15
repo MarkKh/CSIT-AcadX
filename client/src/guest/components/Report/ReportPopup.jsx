@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { Button, Table, TableContainer, Select } from "@windmill/react-ui";
+import { Button, Table } from "@windmill/react-ui";
 import "../../../admin/utils/css/Popup.css";
-import Swal from 'sweetalert2'
 import { getAllAdvisor, getRepType } from '../../../utils/routh'
 
 function Popup({ data, onClose }) {

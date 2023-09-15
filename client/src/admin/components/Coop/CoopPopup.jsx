@@ -67,6 +67,18 @@ function Popup({ data, onClose }) {
         };
     }, [onClose]);
 
+    const fieldDisplayNames = {
+        coop_id: "Coop ID",
+        student_id: "Student ID",
+        major: "Major",
+        company: "Company",
+        student_name: "Student Name",
+        province: "Province",
+        advisor_id: "Advisor ID",
+        semester: "Semester",
+        year: "Year",
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-4 rounded-lg shadow-lg max-w-lg overflow-y-auto popup">
@@ -92,13 +104,13 @@ function Popup({ data, onClose }) {
                     <table className="w-full">
                         <tbody>
                             {Object.entries(formData).map(([field, value]) => {
-                                let fieldName = field || field;
+                                let fieldName = fieldDisplayNames[field] || field;
 
                                 if (field === 'coop_id') {
                                     // แสดงเฉพาะข้อมูลเท่านั้น ไม่ให้แก้ไข
                                     return (
                                         <tr key={field}>
-                                            <td className="pr-4 font-semibold">{field}</td>
+                                            <td className="pr-4 font-semibold">{fieldName}</td>
                                             <td>
                                                 <Input
                                                     disabled
@@ -156,7 +168,7 @@ function Popup({ data, onClose }) {
                                 }
                                 return (
                                     <tr key={field}>
-                                        <td className="pr-4 font-semibold">{field}</td>
+                                        <td className="pr-4 font-semibold">{fieldName}</td>
                                         <td>
                                             <Input
                                                 type="text"

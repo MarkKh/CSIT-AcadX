@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import { Input, Button } from "@windmill/react-ui";
+import { Input } from "@windmill/react-ui";
 
 function ReportSearch({ search, setSearch, dataToExcel }) {
   const badgeStyle = {
