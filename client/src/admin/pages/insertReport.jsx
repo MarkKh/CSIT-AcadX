@@ -34,7 +34,7 @@ function Forms() {
       [name]: value
     }));
   };
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch(CreateReport, {
@@ -51,15 +51,17 @@ function Forms() {
           'Insert Successfully',
           'Good job bro!',
           'success'
-        )
-        // Redirect to "/app/tables"
-        window.location.href = "/admin/Reports";
+        ).then(() => {
+          // Redirect to "/admin/Reports" after SweetAlert dialog is closed
+          window.location.href = "/admin/Reports";
+        });
       })
       .catch((error) => {
         console.error("Error saving report:", error);
         alert("Error: " + error.message);
       });
   };
+  
 
   useEffect(() => {
     fetch(getAllAdvisor)

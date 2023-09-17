@@ -9,7 +9,7 @@ function Popup({ data, onClose }) {
   const [formData, setFormData] = useState(data);
   const [advisors, setAdvisors] = useState({});
   const [reportType, setReportType] = useState({});
-  const fieldsToExclude = ["abstract"];
+  const fieldsToExclude = [""];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -201,16 +201,26 @@ function Popup({ data, onClose }) {
                     <tr key={field}>
                       <td className="pr-4 font-semibold">{fieldName}</td>
                       <td>
-                        <Input
-                          type="text"
-                          name={field}
-                          value={value}
-                          onChange={handleFieldChange}
-                          className="border border-gray-300 rounded px-2 py-1 w-full"
-                        />
+                        {field === "abstract" ? (
+                          <textarea
+                            name={field}
+                            value={value}
+                            onChange={handleFieldChange}
+                            className="border border-gray-300 rounded px-2 py-1 w-full h-20" // ปรับส่วนสูงของ textarea ตามที่คุณต้องการ
+                          />
+                        ) : (
+                          <Input
+                            type="text"
+                            name={field}
+                            value={value}
+                            onChange={handleFieldChange}
+                            className="border border-gray-300 rounded px-2 py-1 w-full"
+                          />
+                        )}
                       </td>
                     </tr>
                   );
+
                 }
                 return null;
               })}

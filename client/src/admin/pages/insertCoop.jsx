@@ -44,9 +44,11 @@ function Forms() {
                     'Insert Successfully',
                     'Good job bro!',
                     'success'
-                )
-                // Redirect to "/app/tables"
-                window.location.href = "/admin/coop";
+                ).then(() => {
+                    // Redirect to "/app/tables"
+                    window.location.href = "/admin/coop";
+                })
+
             })
             .catch((error) => {
                 console.error("Error saving report:", error);
