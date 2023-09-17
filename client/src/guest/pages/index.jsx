@@ -7,8 +7,11 @@ import CTA from '../components/CTA'
 function Index() {
   return (
     <>
-      <Hero />
+      <div className="mx-auto" >
+        <Hero/>
+      </div>
       <div className="container grid mx-auto">
+
         <AboutSection1 />
         <AboutSection2 />
         <CTA />

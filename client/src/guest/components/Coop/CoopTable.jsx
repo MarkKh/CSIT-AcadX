@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Table,
     TableHeader,
@@ -10,14 +10,8 @@ import {
     Badge,
     Button,
     Pagination,
-    Input,
-    Select,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter
 } from "@windmill/react-ui";
-import { EditIcon, FormsIcon } from '../../../admin/icons';
+import { HeartIcon } from '../../../admin/icons';
 
 function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
     const resultsPerPage = 10;
@@ -26,17 +20,35 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
         setCoop(p);
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedCoopData, setSelectedCoopData] = useState(null);
+    const [likedCoop, setLikedCoop] = useState([]);
 
-    const openModal = (coopData) => {
-        setSelectedCoopData(coopData);
-        setIsModalOpen(true);
-    };
+    function addCoopLikeToLocalStorage(coop_id) {
+        const likedCoop = JSON.parse(localStorage.getItem('likedCoop')) || [];
+        likedCoop.push(coop_id);
+        localStorage.setItem('likedCoop', JSON.stringify(likedCoop));
+    }
 
-    const closeModal = () => {
-        setSelectedCoopData(null);
-        setIsModalOpen(false);
+    function removeCoopLikeFromLocalStorage(coop_id) {
+        const likedCoop = JSON.parse(localStorage.getItem('likedCoop')) || [];
+        const updatedlikedCoop = likedCoop.filter(coop => coop !== coop_id);
+        localStorage.setItem('likedCoop', JSON.stringify(updatedlikedCoop));
+    }
+
+    useEffect(() => {
+        const storedLikedCoop = JSON.parse(localStorage.getItem('likedCoop')) || [];
+        setLikedCoop(storedLikedCoop);
+    }, []);
+
+    const handleLikeClick = (coop) => {
+        const isLiked = likedCoop.includes(coop.coop_id);
+
+        if (isLiked) {
+            removeCoopLikeFromLocalStorage(coop.coop_id);
+            setLikedCoop(prevlikedCoop => prevlikedCoop.filter(item => item !== coop.coop_id));
+        } else {
+            addCoopLikeToLocalStorage(coop.coop_id);
+            setLikedCoop(prevlikedCoop => [...prevlikedCoop, coop.coop_id]);
+        }
     };
 
     return (
@@ -50,7 +62,7 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                         <TableCell className="w-1/8">Company</TableCell>
                         <TableCell className="w-1/8">Advisor ID</TableCell>
                         <TableCell className="w-1/8">Semester</TableCell>
-                        {/*<TableCell className="w-1/8">Actions</TableCell>*/}
+                        <TableCell className="w-1/8">Actions</TableCell>
                     </tr>
                 </TableHeader>
                 <TableBody>
@@ -118,34 +130,25 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                                     </div>
                                 </TableCell>
 
-                                {/*<TableCell>
+                                <TableCell>
                                     <div className="flex items-center space-x-4">
                                         <Button
                                             layout="link"
                                             size="icon"
-                                            aria-label="Edit"
-                                            onClick={() => openModal(coop)}
+                                            aria-label="Like"
+                                            onClick={() => handleLikeClick(coop)}
                                         >
-                                            <FormsIcon className="w-5 h-5" aria-hidden="true" />
+                                            <HeartIcon
+                                                color={likedCoop.includes(coop.coop_id) ? 'skyblue' : undefined}
+                                                className="w-5 h-5"
+                                                aria-hidden="true"
+                                            />
                                         </Button>
+
                                     </div>
                                 </TableCell>
 
-                                
-                                {selectedCoopData && (
-                                    <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                        <ModalHeader>Modal header</ModalHeader>
-                                        <ModalBody>
-                                            <p>ID: {selectedCoopData.coop_id}</p>
-                                            <p>Student ID: {selectedCoopData.student_id}</p>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
-                                                Cancel
-                                            </Button>
-                                        </ModalFooter>
-                                    </Modal>
-                                )} */}
+
                             </TableRow>
                         ))}
                 </TableBody>

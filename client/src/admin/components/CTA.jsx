@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function CTA() {
   return (
     <Link to='/admin/AdminGuide'>
-      <a
+      <p
         className="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
 
       >
@@ -18,7 +18,7 @@ function CTA() {
         <span>
           View more <span dangerouslySetInnerHTML={{ __html: '&RightArrow;' }}></span>
         </span>
-      </a>
+      </p>
     </Link>
   )
 }

@@ -1,20 +1,20 @@
 import React from 'react';
 import Typed from 'react-typed';
 import { Link } from "react-router-dom";
-import backgroundImage from '../assets/bg-index.png';
+import backgroundImage from '../assets/bg-4.jpg';
 
 const HeroSection = () => {
     return (
-        <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}>
+        <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundColor: 'rgba(0, 0, 0, 0.9)' }}>
             <div className="text-center">
                 <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">CSIT AcadX</h1>
-                <p className="mb-6 text-sm md:text-base font-normal text-gray-600 sm:px-16 xl:px-48 dark:text-gray-600">
+                <p className="mb-6 text-sm md:text-base font-normal text-gray-800 sm:px-16 xl:px-48 dark:text-gray-800">
                     "CSIT" represents the academic field, while "AcadX" combines the concept of an academy with a modern and concise twist. The "X" adds a contemporary touch to the name, making it catchy and memorable.
                 </p>
 
 
                 <div><Typed
-                    className='text-lg md:text-xl lg:text-2xl font-extrabold leading-none tracking-tight text-purple-400 dark:text-purple-300'
+                    className='text-lg md:text-xl lg:text-2xl font-extrabold leading-none tracking-tight text-purple-700 dark:text-purple-600'
                     strings={['Information Technology', 'Computer Science', 'AcadX', 'CSIT', 'Academic', 'COOP']}
                     typeSpeed={50}
                     backSpeed={50}

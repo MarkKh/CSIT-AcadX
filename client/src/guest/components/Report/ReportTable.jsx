@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TableHeader, TableCell, TableBody, TableRow, TableFooter, TableContainer, Badge, Button, Pagination } from "@windmill/react-ui";
-import { EditIcon, TrashIcon, FormsIcon } from "../../../admin/icons";
+import { HeartIcon, FormsIcon } from "../../../admin/icons";
 
 function ReportTable({ dataReports, response, filterReports, advisors, openPopup, setReport }) {
   const totalResults = response.length;
@@ -9,6 +9,39 @@ function ReportTable({ dataReports, response, filterReports, advisors, openPopup
   const onPageChangeReport = (p) => {
     setReport(p);
   };
+
+  function removeLikeFromLocalStorage(rep_id) {
+    const likedReports = JSON.parse(localStorage.getItem('likedReports')) || [];
+    const updatedLikedReports = likedReports.filter(report => report !== rep_id);
+    localStorage.setItem('likedReports', JSON.stringify(updatedLikedReports));
+  }
+
+  function addLikeToLocalStorage(rep_id) {
+    const likedReports = JSON.parse(localStorage.getItem('likedReports')) || [];
+    likedReports.push(rep_id);
+    localStorage.setItem('likedReports', JSON.stringify(likedReports));
+  }
+
+  const [likedReports, setLikedReports] = useState([]);
+
+  useEffect(() => {
+    const storedLikedReports = JSON.parse(localStorage.getItem('likedReports')) || [];
+    setLikedReports(storedLikedReports);
+  }, []);
+
+
+  const handleLikeClick = (reportItem) => {
+    const isLiked = likedReports.includes(reportItem.rep_code);
+
+    if (isLiked) {
+      removeLikeFromLocalStorage(reportItem.rep_code);
+      setLikedReports(prevLikedReports => prevLikedReports.filter(item => item !== reportItem.rep_code));
+    } else {
+      addLikeToLocalStorage(reportItem.rep_code);
+      setLikedReports(prevLikedReports => [...prevLikedReports, reportItem.rep_code]);
+    }
+  };
+
 
   return (
     <TableContainer className="mb-8">
@@ -98,6 +131,19 @@ function ReportTable({ dataReports, response, filterReports, advisors, openPopup
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-4">
+                    <Button
+                      layout="link"
+                      size="icon"
+                      aria-label="Like"
+                      onClick={() => handleLikeClick(reportItem)}
+                    >
+                      <HeartIcon
+                        color={likedReports.includes(reportItem.rep_code) ? 'red' : undefined}
+                        className="w-5 h-5"
+                        aria-hidden="true"
+                      />
+                    </Button>
+
 
                     <Button
                       layout="link"
