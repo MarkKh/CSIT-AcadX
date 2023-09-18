@@ -7,7 +7,7 @@ function AdminGuide() {
         <div>
             <PageTitle>Admin Guide</PageTitle>
             <center>
-                <iframe src={Guide_Doc} width='100%' height='975px'></iframe>
+                <iframe src={Guide_Doc} title="Admin" width='100%' height='975px'></iframe>
             </center>
         </div>
     );
