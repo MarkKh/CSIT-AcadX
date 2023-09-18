@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import LogoApp from '../assets/Logo-App.png'
+import { Link, useLocation } from 'react-router-dom';
+import LogoApp from '../assets/Logo-App.png';
+import { HeartIcon } from "../../admin/icons";
 
 const Navbar = () => {
-  const [activeButton, setActiveButton] = useState('home');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const location = useLocation();
 
   const toggleNav = () => {
     const navbar = document.getElementById('navbar-default');
@@ -13,11 +14,6 @@ const Navbar = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName);
-    setIsDropdownOpen(false);
   };
 
   return (
@@ -42,13 +38,11 @@ const Navbar = () => {
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
-                to="/"
-                className={`block py-2 pl-3 pr-4 rounded ${
-                  activeButton === 'home'
-                    ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
-                    : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
-                }`}
-                onClick={() => handleButtonClick('home')}
+                to="/index"
+                className={`block py-2 pl-3 pr-4 rounded ${location.pathname === '/index'
+                  ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
+                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
+                  }`}
               >
                 Home
               </Link>
@@ -56,12 +50,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/reports"
-                className={`block py-2 pl-3 pr-4 rounded ${
-                  activeButton === 'reports'
-                    ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
-                    : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
-                }`}
-                onClick={() => handleButtonClick('reports')}
+                className={`block py-2 pl-3 pr-4 rounded ${location.pathname === '/reports'
+                  ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
+                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
+                  }`}
               >
                 Reports
               </Link>
@@ -69,14 +61,32 @@ const Navbar = () => {
             <li>
               <Link
                 to="/coop"
-                className={`block py-2 pl-3 pr-4 rounded ${
-                  activeButton === 'coop'
-                    ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
-                    : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
-                }`}
-                onClick={() => handleButtonClick('coop')}
+                className={`block py-2 pl-3 pr-4 rounded ${location.pathname === '/coop'
+                  ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
+                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover-bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
+                  }`}
               >
                 Coop
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/like"
+                className={`block py-2 pl-3 pr-4 rounded ${location.pathname === '/like'
+                  ? 'text-white bg-purple-700 md:bg-transparent md:text-purple-700 md:p-0 dark:text-white md:dark:text-purple-500'
+                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-0 dark:text-white md:dark:hover:text-purple-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
+                  }`}
+              >
+                Like
+                <HeartIcon
+                  className="w-6 h-6 inline-block ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                />
               </Link>
             </li>
           </ul>

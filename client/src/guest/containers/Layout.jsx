@@ -10,7 +10,7 @@ import ThemedSuspense from '../../admin/components/ThemedSuspense';
 function Layout() {
     return (
         <>
-            <div className="flex flex-col flex-1 w-full">
+            <div className="flex flex-col h-screen">
                 <Navbar />
                 <Main>
                     <Suspense fallback={<ThemedSuspense />}>

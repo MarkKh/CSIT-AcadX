@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import {
-  Badge
-} from "@windmill/react-ui";
-import Swal from 'sweetalert2'
+
 // component
 import Popup from "../components/Report/ReportPopup";
 import ReportTable from "../components/Report/ReportTable";
@@ -136,7 +133,6 @@ function Reports() {
     fetchData();
   };
 
-  const [loanPopupData, setLoanPopupData] = useState(null);
 
 
   return (
