@@ -107,7 +107,7 @@ function reportsRouter(app, connection) {
     connection.query(
       "UPDATE reports SET ? WHERE rep_code = ?",
       [report, repCode],
-      (err) => {
+      (err) => {                                                                                                     
         if (err) throw err;
         res.json({ message: "Report updated successfully" });
       }

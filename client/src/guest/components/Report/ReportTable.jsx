@@ -71,14 +71,14 @@ function ReportTable({ dataReports, response, filterReports, advisors, openPopup
                     <div>
                       <div className="flex items-center space-x-2">
                         <h1 className="font-semibold">
-                          {reportItem.rep_code}
+                          {reportItem.title}
                         </h1>
                         {reportItem.prominence === "โดดเด่น" ? (
                           <Badge type="primary">โดดเด่น</Badge>
                         ) : null}
                       </div>
                       <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {reportItem.title}
+                        {reportItem.rep_code}
                       </p>
                     </div>
                   </div>
@@ -87,10 +87,10 @@ function ReportTable({ dataReports, response, filterReports, advisors, openPopup
                   <div className="flex items-center text-sm">
                     <div>
                       <p className="font-semibold">
-                        {reportItem["1st_student_id"]}
+                        {reportItem["1st_student_name"]}
                       </p>
                       <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {reportItem["1st_student_name"]}
+                        {reportItem["1st_student_id"]}
                       </p>
                     </div>
                   </div>
@@ -101,11 +101,13 @@ function ReportTable({ dataReports, response, filterReports, advisors, openPopup
                       {reportItem["2nd_student_id"] === '-' ? (
                         <span className="bg-indigo-100 text-indigo-800 text-xs font-medium mr-5 px-4 py-1 rounded-full dark:bg-indigo-900 dark:text-indigo-300">Not found</span>
                       ) : (
-                        <p className="font-semibold">{reportItem["2nd_student_id"]}</p>
+                        <p className="font-semibold">
+                          {reportItem["2nd_student_name"]}
+                        </p>
                       )}
                       {reportItem["2nd_student_name"] !== '-' && (
                         <p className="text-xs text-gray-600 dark:text-gray-400">
-                          {reportItem["2nd_student_name"]}
+                          {reportItem["2nd_student_id"]}
                         </p>
                       )}
                     </div>

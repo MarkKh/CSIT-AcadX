@@ -1,11 +1,11 @@
 import React from 'react';
 import Typed from 'react-typed';
 import { Link } from "react-router-dom";
-import backgroundImage from '../assets/bg-4.jpg';
+import Bg from '../assets/bg-4.jpg';
 
 const HeroSection = () => {
     return (
-        <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundColor: 'rgba(0, 0, 0, 0.9)' }}>
+        <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(${Bg})`, backgroundSize: 'cover', backgroundColor: 'rgba(0, 0, 0, 0.9)' }}>
             <div className="text-center">
                 <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">CSIT AcadX</h1>
                 <p className="mb-6 text-sm md:text-base font-normal text-gray-800 sm:px-16 xl:px-48 dark:text-gray-800">

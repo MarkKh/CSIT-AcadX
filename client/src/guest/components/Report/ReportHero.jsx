@@ -1,12 +1,18 @@
 import React from "react";
+import Bg from '../../assets/bg-rep.jpg'; // ตรวจสอบ path ของรูปภาพให้ถูกต้อง
 
+const heroStyle = {
+    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(${Bg})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+};
 export default function CoopHero() {
     return (
-        <>
-            <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 dark:bg-gray-800 dark:text-gray-100">
-                <h2 className="mb-8 text-4xl font-bold leadi text-center">Report</h2>
-
+        <div className="py-16" style={heroStyle}>
+            <div className="container mx-auto">
+                <h2 className="text-4xl text-gray-800 font-bold text-center mb-2">UGThesis and Co-op Reports</h2>
+                <p className="text-xl text-center">รายงานวิทยานิพนธ์ และสหกิจศึกษา</p>
             </div>
-        </>
+        </div>
     );
 }

@@ -41,7 +41,7 @@ function Reports() {
         reportTypeMap[report_type.rep_type_id] = report_type.type_name;
       });
       setReportType(reportTypeMap);
-      
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -87,7 +87,7 @@ function Reports() {
         .slice((report - 1) * resultsPerPage, report * resultsPerPage)
     );
   }, [report, response, search, selectedFilters]);
-  
+
 
   const handleSelectFilter = (filterName, value) => {
     setSelectedFilters((prevFilters) => ({
@@ -137,9 +137,9 @@ function Reports() {
 
   return (
     <>
-      <div className="container grid px-6 mx-auto">
 
-        <ReportHero />
+      <ReportHero />
+      <div className="container grid px-6 mx-auto">
 
         {/* ReportSearch */}
         <ReportSearch setSearch={setSearch} dataToExcel={dataToExcel} />
