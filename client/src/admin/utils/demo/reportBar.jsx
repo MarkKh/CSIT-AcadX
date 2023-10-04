@@ -81,7 +81,7 @@ const Graph = () => {
     <ChartCard>
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-gray-600 text-lg font-semibold">Advisors UG and COOP Participation over the Years</h2>
+          <h2 className="text-gray-600 text-lg font-semibold">Advisors UT and COOP Participation over the Years</h2>
           <div className="grid gap-2 grid-cols-2 md:flex items-center">
             <Select
               className="appearance-none w-full p-2 pr-8 bg-white rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-blue-200 focus:outline-none"
@@ -93,7 +93,7 @@ const Graph = () => {
               className="appearance-none w-full p-2 pr-8 bg-white rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-blue-200 focus:outline-none"
               value={selectedData}
               onChange={handleDataChange}>
-              <option value="UG">UG</option>
+              <option value="UG">UT</option>
               <option value="COOP">COOP</option>
             </Select>
           </div>

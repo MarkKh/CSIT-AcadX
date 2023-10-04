@@ -16,6 +16,11 @@ function Coop() {
     const [advisors, setAdvisors] = useState({});
     const resultsPerPage = 10;
 
+    useEffect(() => {
+        document.title = 'AcadX | Cooperative';
+      }, []);
+    
+
 
     const fetchData = async () => {
         try {

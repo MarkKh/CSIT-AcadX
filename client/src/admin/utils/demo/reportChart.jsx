@@ -16,7 +16,7 @@ const BarChart = () => {
                 const labels = data.map(entry => entry.year.toString());
                 const datasets = [
                     {
-                        label: 'UG',
+                        label: 'UT',
                         backgroundColor: randomColor({ luminosity: 'light', format: 'rgb' }),
                         borderWidth: 1,
                         data: data.map(entry => entry.UG),

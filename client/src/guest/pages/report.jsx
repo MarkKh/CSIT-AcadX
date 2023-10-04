@@ -133,7 +133,9 @@ function Reports() {
     fetchData();
   };
 
-
+  useEffect(() => {
+    document.title = 'AcadX | Report';
+  }, []);
 
   return (
     <>

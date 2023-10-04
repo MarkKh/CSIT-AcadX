@@ -1,8 +1,12 @@
-import React from "react";
+import React , {useEffect} from "react";
 import ReportBarGraph from '../../admin/utils/demo/reportBar'
 import CoopChart from "../../admin/utils/demo/coopChart"
 
 function Statistic() {
+    useEffect(() => {
+        document.title = 'AcadX | Statistic';
+      }, []);
+    
     return (
         <>
             <div className="container grid px-6 mx-auto">
