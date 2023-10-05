@@ -57,11 +57,10 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                 <TableHeader>
                     <tr>
                         {/*<TableCell className="w-1/8">ID</TableCell>*/}
-                        <TableCell className="w-1/8">Year</TableCell>
-                        <TableCell className="w-1/8">Student Information</TableCell>
+                        <TableCell className="w-1/8">Year / Semester</TableCell>
                         <TableCell className="w-1/8">Company</TableCell>
-                        <TableCell className="w-1/8">Advisor ID</TableCell>
-                        <TableCell className="w-1/8">Semester</TableCell>
+                        <TableCell className="w-1/8">Student Information</TableCell>
+                        <TableCell className="w-1/8">Advisor</TableCell>
                         <TableCell className="w-1/8">Actions</TableCell>
                     </tr>
                 </TableHeader>
@@ -80,28 +79,7 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                         </TableCell>*/}
                                 <TableCell>
                                     <div className="flex items-center text-sm">
-                                        {coop.year}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center text-sm">
-                                        <div>
-                                            <div className="flex items-center space-x-2">
-                                                <Badge
-                                                    type={
-                                                        coop.major === "วิทยาการคอมพิวเตอร์" ? "warning" : "primary"
-                                                    }
-                                                >
-                                                    {coop.major === "วิทยาการคอมพิวเตอร์" ? "CS" : "IT"}
-                                                </Badge>
-                                                <h1 className="font-semibold">
-                                                    {coop.student_id}
-                                                </h1>
-                                            </div>
-                                            <p className="text-xs text-gray-600 dark:text-gray-400">
-                                                {coop.student_name}
-                                            </p>
-                                        </div>
+                                        {coop.year} / {coop.semester}
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -121,12 +99,29 @@ function CoopTable({ setCoop, dataCoop, response, filteredCoop, advisors }) {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center text-sm">
-                                        {advisors[coop.advisor_id]}
+                                        <div>
+                                            <div className="flex items-center space-x-2">
+                                                <Badge
+                                                    type={
+                                                        coop.major === "วิทยาการคอมพิวเตอร์" ? "warning" : "primary"
+                                                    }
+                                                >
+                                                    {coop.major === "วิทยาการคอมพิวเตอร์" ? "CS" : "IT"}
+                                                </Badge>
+                                                <h1 className="font-semibold">
+                                                    {coop.student_name}
+                                                </h1>
+                                            </div>
+                                            <p className="text-xs text-gray-600 dark:text-gray-400">
+                                                {coop.student_id}
+                                            </p>
+                                        </div>
                                     </div>
                                 </TableCell>
+
                                 <TableCell>
                                     <div className="flex items-center text-sm">
-                                        {coop.semester}
+                                        {advisors[coop.advisor_id]}
                                     </div>
                                 </TableCell>
 

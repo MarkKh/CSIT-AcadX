@@ -4,6 +4,7 @@ const Index = lazy(() => import('../pages/index'))
 const Coop = lazy(() => import('../pages/coop'))
 const Report = lazy(() => import('../pages/report'))
 const Like = lazy(() => import('../pages/Like'))
+const Statistic = lazy(() => import('../pages/statistic'))
 
 const routes = [
     {
@@ -21,6 +22,10 @@ const routes = [
     {
         path: '/like',
         component: Like
+    },
+    {
+        path: '/statistic',
+        component: Statistic
     }
 ]
 

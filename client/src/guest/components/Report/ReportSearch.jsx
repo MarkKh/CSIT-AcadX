@@ -13,8 +13,8 @@ function ReportSearch({ search, setSearch, dataToExcel }) {
     justifyContent: 'center',
   };
   return (
-    <div className="flex justify-between mb-4">
-      <div className="relative flex-1 mr-4">
+    <div className="flex justify-between mb-4 mt-6">
+      <div className="relative flex-1 mr-4 ">
         <Input
           type="text"
           onChange={(e) => setSearch(e.target.value)}

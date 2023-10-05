@@ -14,7 +14,7 @@ const badgeStyle = {
 
 function CoopSearch({ search, setSearch, countData }) {
   return (
-    <div className="flex justify-between mb-4">
+    <div className="flex justify-between mb-4 mt-6">
       <div className="relative flex-1 mr-4">
         <div className="flex">
           <Input

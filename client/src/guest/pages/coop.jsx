@@ -16,6 +16,11 @@ function Coop() {
     const [advisors, setAdvisors] = useState({});
     const resultsPerPage = 10;
 
+    useEffect(() => {
+        document.title = 'AcadX | Cooperative';
+      }, []);
+    
+
 
     const fetchData = async () => {
         try {
@@ -71,7 +76,7 @@ function Coop() {
         setDataCoop(
             response
                 .filter(filteredCoop)
-                .sort((a,b) => {
+                .sort((a, b) => {
                     return b.year - a.year
                 })
                 .slice((coop - 1) * resultsPerPage, coop * resultsPerPage)
@@ -106,8 +111,9 @@ function Coop() {
 
     return (
         <>
+            <CoopHero />
+
             <div className="container grid px-6 mx-auto">
-                <CoopHero />
                 <CoopSearch search={search} setSearch={setSearch} countData={countData} />
 
 
