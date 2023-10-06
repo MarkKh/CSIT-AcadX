@@ -104,7 +104,7 @@ function Popup({ data, onClose }) {
 
                   return (
                     <tr key={field}>
-                      <td className="pr-4 font-semibold">{fieldName}</td>
+                      <td className="pr-4 font-semibold" >{fieldName}</td>
                       <td>{currentRepType}</td>
                     </tr>
                   );
@@ -143,7 +143,7 @@ function Popup({ data, onClose }) {
 
                 return (
                   <tr key={field}>
-                    <td className="pr-4 font-semibold">{fieldName}</td>
+                    <td className="pr-4 font-semibold" >{fieldName}</td>
                     <td>{value}</td>
                   </tr>
                 );

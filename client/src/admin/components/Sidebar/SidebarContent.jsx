@@ -12,8 +12,8 @@ function Icon({ icon, ...props }) {
 
 function SidebarContent() {
   return (
-    <div className="py-4 text-gray-500 dark:text-gray-400">
-      <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+    <div className="py-4 text-gray-500 dark:text-gray-400" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <a className="ml-6 text-2xl font-bold text-gray-800 dark:text-gray-200" href="#">
         AcadX
       </a>
       <ul className="mt-6">
