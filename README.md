@@ -1,8 +1,6 @@
 # CSIT AcadX - Modern Academic Web Application 🚀✨
 
-CSIT AcadX is an academic web application developed by students for an undergraduate thesis in the Department of Computer Science and Information Technology.
-
-"CSIT" represents the academic field, while "AcadX" combines the concept of an academy with a modern and concise twist. The "X" adds a contemporary touch to the name, making it catchy and memorable.
+CSIT AcadX stands for Academic Reports and Co-op study at Computer Science and Information Technology. The website contains information of past Undergraduate Thesis and Co-op study reports and Co-op study places, which is useful for current and future students of CSIT.
 
 ## Technologies Used
 

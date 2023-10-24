@@ -1,5 +1,4 @@
 const port = "http://localhost:25863";
-//const port = "http://192.168.200.111:25863";
 
 // admin api
 export const LoginApi = `${port}/login`;
