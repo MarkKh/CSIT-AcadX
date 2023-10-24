@@ -36,5 +36,9 @@ To run CSIT AcadX locally, follow these steps:
 8. Install client dependencies: `npm install`
 9. Run the client: `npm start`
 
+### Test Admin
+username: test@gmail.com
+pass: 1234
+
 
 
