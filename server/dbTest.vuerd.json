@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -344.3333333333336,
-    "scrollLeft": -281.77777777777663,
-    "zoomLevel": 0.9,
+    "scrollTop": -360.33333333333377,
+    "scrollLeft": -265.77777777777646,
+    "zoomLevel": 0.85,
     "show": {
       "tableComment": true,
       "columnComment": false,
@@ -895,9 +895,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1162.3698,
-          "top": 478.2406,
-          "zIndex": 3,
+          "left": 1129.0379,
+          "top": 482.6848,
+          "zIndex": 7,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1116,8 +1116,8 @@
           "columnIds": [
             "da1de0ec-e439-4efd-88d8-b03201ced641"
           ],
-          "x": 1162.3698,
-          "y": 594.7406,
+          "x": 1129.0379,
+          "y": 599.1848,
           "direction": "left"
         },
         "constraintName": "fk_reports_to_loan",
