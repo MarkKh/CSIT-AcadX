@@ -14,6 +14,8 @@ CSIT AcadX is built using cutting-edge technologies to ensure a robust and respo
 
 - **MySQL**: A reliable and scalable relational database management system used to securely store and manage application data.
 
+node v16.13.2
+
 ## Installation
 
 To run CSIT AcadX locally, follow these steps:
